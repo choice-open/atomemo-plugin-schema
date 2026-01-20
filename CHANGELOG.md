@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-01-20
+
+### Added
+
+- Added `PropertyUISectionProps` component for section UI layout
+- Added `PropertyUISectionPropsSchema` schema for section component validation
+- Added `PropertyUIContainer` type union for container components (collapsible-panel, section)
+- Added `PropertyUIContainerSchema` schema for container component validation
+- Added `line_wrapping` property to `PropertyUICodeEditorProps` for enabling line wrapping in code editor
+- Added `rows` property to `PropertyUICodeEditorProps` to specify number of visible rows
+
+### Changed
+
+- Updated `PropertyUIObject` type to include container components (collapsible-panel, section)
+- Updated `PropertyUIObjectSchema` to include container component schemas
+
+### Removed
+
+- Removed `PropertyUICheckboxProps` component (use `PropertyUISwitchProps` instead)
+- Removed `PropertyUICheckboxPropsSchema` schema
+- Removed `PropertyUICheckboxProps` from `PropertyUIBoolean` type union
+- Removed `html` language option from `PropertyUICodeEditorProps` (supported languages: json, javascript, python3)
+
 ## [0.1.2] - 2026-01-20
 
 ### Added
@@ -62,6 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
+[0.1.3]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/choice-open/atomemo-plugin-schema/releases/tag/v0.1.0

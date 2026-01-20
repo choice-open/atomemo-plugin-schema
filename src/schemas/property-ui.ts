@@ -6,6 +6,7 @@ import type {
   PropertyUIBoolean,
   PropertyUICollapsiblePanelProps,
   PropertyUIColorPickerProps,
+  PropertyUIContainer,
   PropertyUICredentialId,
   PropertyUIEmojiPickerProps,
   PropertyUIEncryptedInputProps,
@@ -16,6 +17,7 @@ import type {
   PropertyUIOption,
   PropertyUIProps,
   PropertyUIRadioGroupProps,
+  PropertyUISectionProps,
   PropertyUISingleSelectProps,
   PropertyUIString,
   PropertyUISwitchProps,
@@ -125,10 +127,12 @@ const PropertyUINumberInputPropsSchema = PropertyUICommonPropsSchema.extend({
 // Code editor component schema
 const PropertyUICodeEditorPropsSchema = PropertyUICommonPropsSchema.extend({
   component: z.literal("code-editor"),
-  language: z.enum(["json", "javascript", "python3", "html"]).optional(),
+  language: z.enum(["json", "javascript", "python3"]).optional(),
   line_numbers: z.boolean().optional(),
+  line_wrapping: z.boolean().optional(),
   max_height: z.number().optional(),
   min_height: z.number().optional(),
+  rows: z.number().optional(),
 })
 
 // Select base schema
@@ -178,11 +182,6 @@ const PropertyUISwitchPropsSchema = PropertyUICommonPropsSchema.extend({
 {
   const _: IsEqual<z.infer<typeof PropertyUISwitchPropsSchema>, PropertyUISwitchProps> = true
 }
-
-// Checkbox component schema
-const PropertyUICheckboxPropsSchema = PropertyUICommonPropsSchema.extend({
-  component: z.literal("checkbox"),
-})
 
 // Slider component schema
 const PropertyUISliderPropsSchema = PropertyUICommonPropsSchema.extend({
@@ -283,6 +282,14 @@ const PropertyUICollapsiblePanelPropsSchema = PropertyUICommonPropsSchema.extend
   > = true
 }
 
+// Section component schema
+const PropertyUISectionPropsSchema = PropertyUICommonPropsSchema.extend({
+  component: z.literal("section"),
+})
+{
+  const _: IsEqual<z.infer<typeof PropertyUISectionPropsSchema>, PropertyUISectionProps> = true
+}
+
 export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
   PropertyUIInputPropsSchema,
   PropertyUITextareaPropsSchema,
@@ -294,7 +301,6 @@ export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
   PropertyUIColorPickerPropsSchema,
   PropertyUIMultiSelectPropsSchema,
   PropertyUISwitchPropsSchema,
-  PropertyUICheckboxPropsSchema,
   PropertyUISliderPropsSchema,
   PropertyUIKeyValueEditorPropsSchema,
   PropertyUITagInputPropsSchema,
@@ -303,6 +309,7 @@ export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
   PropertyUIConditionsEditorPropsSchema,
   PropertyUIArraySectionPropsSchema,
   PropertyUICollapsiblePanelPropsSchema,
+  PropertyUISectionPropsSchema,
   PropertyUIEncryptedInputPropsSchema,
 ])
 {
@@ -311,7 +318,6 @@ export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
 
 export const PropertyUIBooleanSchema = z.discriminatedUnion("component", [
   PropertyUISwitchPropsSchema,
-  PropertyUICheckboxPropsSchema,
 ])
 {
   const _: IsEqual<z.infer<typeof PropertyUIBooleanSchema>, PropertyUIBoolean> = true
@@ -350,11 +356,20 @@ export const PropertyUIArraySchema = z.discriminatedUnion("component", [
   const _: IsEqual<z.infer<typeof PropertyUIArraySchema>, PropertyUIArray> = true
 }
 
-export const PropertyUIObjectSchema = z.discriminatedUnion("component", [
+export const PropertyUIContainerSchema = z.discriminatedUnion("component", [
   PropertyUICollapsiblePanelPropsSchema,
+  PropertyUISectionPropsSchema,
+])
+{
+  const _: IsEqual<z.infer<typeof PropertyUIContainerSchema>, PropertyUIContainer> = true
+}
+
+export const PropertyUIObjectSchema = z.discriminatedUnion("component", [
   PropertyUIJsonSchemaEditorPropsSchema,
   PropertyUIConditionsEditorPropsSchema,
   PropertyUICodeEditorPropsSchema,
+  PropertyUICollapsiblePanelPropsSchema,
+  PropertyUISectionPropsSchema,
 ])
 {
   const _: IsEqual<z.infer<typeof PropertyUIObjectSchema>, PropertyUIObject> = true

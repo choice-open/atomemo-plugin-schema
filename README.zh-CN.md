@@ -141,7 +141,7 @@ if (!result.success) {
 - `number-input`、`slider`
 
 **布尔类型可用组件：**
-- `switch`、`checkbox`
+- `switch`
 
 **数组类型可用组件：**
 - `multi-select`、`tag-input`、`key-value-editor`、`slider`、`array-section`

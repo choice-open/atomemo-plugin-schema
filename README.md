@@ -141,7 +141,7 @@ Each property type can be configured with different UI components:
 - `number-input`, `slider`
 
 **Boolean type components:**
-- `switch`, `checkbox`
+- `switch`
 
 **Array type components:**
 - `multi-select`, `tag-input`, `key-value-editor`, `slider`, `array-section`

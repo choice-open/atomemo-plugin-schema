@@ -90,10 +90,24 @@ interface PropertyUINumberInputProps extends PropertyUICommonProps {
 /** 代码编辑器 UI 属性 */
 interface PropertyUICodeEditorProps extends PropertyUICommonProps {
   component: "code-editor"
-  language?: "json" | "javascript" | "python3" | "html"
+  language?: "json" | "javascript" | "python3"
+  /**
+   * Show line numbers in the code editor.
+   * @default false
+   */
   line_numbers?: boolean
+  /**
+   * Enable line wrapping in the code editor.
+   * @default false
+   */
+  line_wrapping?: boolean
   max_height?: number
   min_height?: number
+  /**
+   * Number of rows to show in the code editor.
+   * @default 4
+   */
+  rows?: number
 }
 
 interface PropertyUISelectPropsBase {
@@ -129,10 +143,6 @@ interface PropertyUIMultiSelectProps extends PropertyUICommonProps, PropertyUISe
 
 export interface PropertyUISwitchProps extends PropertyUICommonProps {
   component: "switch"
-}
-
-interface PropertyUICheckboxProps extends PropertyUICommonProps {
-  component: "checkbox"
 }
 
 interface PropertyUISliderProps extends PropertyUICommonProps {
@@ -192,6 +202,10 @@ export interface PropertyUICollapsiblePanelProps extends PropertyUICommonProps {
   sortable?: boolean
 }
 
+export interface PropertyUISectionProps extends PropertyUICommonProps {
+  component: "section"
+}
+
 export type PropertyUIProps =
   | PropertyUIInputProps
   | PropertyUITextareaProps
@@ -203,7 +217,6 @@ export type PropertyUIProps =
   | PropertyUIColorPickerProps
   | PropertyUIMultiSelectProps
   | PropertyUISwitchProps
-  | PropertyUICheckboxProps
   | PropertyUISliderProps
   | PropertyUIKeyValueEditorProps
   | PropertyUITagInputProps
@@ -212,11 +225,12 @@ export type PropertyUIProps =
   | PropertyUIConditionsEditorProps
   | PropertyUIArraySectionProps
   | PropertyUICollapsiblePanelProps
+  | PropertyUISectionProps
   | PropertyUIEncryptedInputProps
 
 export type PropertyUIComponentType = PropertyUIProps["component"]
 
-export type PropertyUIBoolean = PropertyUISwitchProps | PropertyUICheckboxProps
+export type PropertyUIBoolean = PropertyUISwitchProps
 
 export type PropertyUINumber = PropertyUINumberInputProps | PropertyUISliderProps
 
@@ -237,7 +251,7 @@ export type PropertyUIArray =
   | PropertyUISliderProps
   | PropertyUIArraySectionProps
 
-export type PropertyUIContainer = PropertyUICollapsiblePanelProps
+export type PropertyUIContainer = PropertyUICollapsiblePanelProps | PropertyUISectionProps
 
 export type PropertyUIMisc = PropertyUIJsonSchemaEditorProps | PropertyUIConditionsEditorProps
 

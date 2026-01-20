@@ -62,7 +62,6 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 - `PropertyUIRadioGroupProps`：单选组组件
 - `PropertyUIMultiSelectProps`：多选下拉组件
 - `PropertyUISwitchProps`：开关组件
-- `PropertyUICheckboxProps`：复选框组件
 - `PropertyUISliderProps`：滑块组件
 - `PropertyUIKeyValueEditorProps`：键值对编辑器组件
 - `PropertyUITagInputProps`：标签输入组件
@@ -73,6 +72,7 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 - `PropertyUIConditionsEditorProps`：条件编辑器组件
 - `PropertyUIArraySectionProps`：数组区块组件
 - `PropertyUICollapsiblePanelProps`：可折叠面板组件
+- `PropertyUISectionProps`：区块组件
 - `PropertyUIEncryptedInputProps`：加密输入组件
 
 **类型联合：**
@@ -81,6 +81,7 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 - `PropertyUINumber`：数字类型可用的 UI 组件
 - `PropertyUIBoolean`：布尔类型可用的 UI 组件
 - `PropertyUIArray`：数组类型可用的 UI 组件
+- `PropertyUIContainer`：容器类型可用的 UI 组件
 - `PropertyUIObject`：对象类型可用的 UI 组件
 - `PropertyUICredentialId`：凭证 ID 类型可用的 UI 组件
 - `PropertyUIEncryptedString`：加密字符串类型可用的 UI 组件

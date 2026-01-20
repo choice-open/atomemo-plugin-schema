@@ -89,7 +89,6 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - `PropertyUIRadioGroupPropsSchema`：单选组
   - `PropertyUIMultiSelectPropsSchema`：多选下拉
   - `PropertyUISwitchPropsSchema`：开关
-  - `PropertyUICheckboxPropsSchema`：复选框
   - `PropertyUISliderPropsSchema`：滑块
   - `PropertyUIKeyValueEditorPropsSchema`：键值对编辑器
   - `PropertyUITagInputPropsSchema`：标签输入
@@ -100,6 +99,7 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - `PropertyUIConditionsEditorPropsSchema`：条件编辑器
   - `PropertyUIArraySectionPropsSchema`：数组区块
   - `PropertyUICollapsiblePanelPropsSchema`：可折叠面板
+  - `PropertyUISectionPropsSchema`：区块
   - `PropertyUIEncryptedInputPropsSchema`：加密输入
 
 **类型联合 Schema：**
@@ -109,6 +109,7 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 - `PropertyUINumberSchema`：数字类型可用的 UI 组件
 - `PropertyUIBooleanSchema`：布尔类型可用的 UI 组件
 - `PropertyUIArraySchema`：数组类型可用的 UI 组件
+- `PropertyUIContainerSchema`：容器类型可用的 UI 组件
 - `PropertyUIObjectSchema`：对象类型可用的 UI 组件
 - `PropertyUICredentialIdSchema`：凭证 ID 类型可用的 UI 组件
 - `PropertyUIDiscriminatorUISchema`：区分器字段可用的 UI 组件

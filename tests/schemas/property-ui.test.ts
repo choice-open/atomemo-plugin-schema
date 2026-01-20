@@ -141,11 +141,6 @@ describe("PropertyUIBooleanSchema - component matching", () => {
     expect(result.success).toBe(true)
   })
 
-  test("should accept checkbox component", () => {
-    const result = PropertyUIBooleanSchema.safeParse({ component: "checkbox" })
-    expect(result.success).toBe(true)
-  })
-
   test("should reject input component for boolean", () => {
     const result = PropertyUIBooleanSchema.safeParse({ component: "input" })
     expect(result.success).toBe(false)
@@ -231,11 +226,6 @@ describe("PropertyUIStringSchema - component matching", () => {
 
   test("should reject switch component for string", () => {
     const result = PropertyUIStringSchema.safeParse({ component: "switch" })
-    expect(result.success).toBe(false)
-  })
-
-  test("should reject checkbox component for string", () => {
-    const result = PropertyUIStringSchema.safeParse({ component: "checkbox" })
     expect(result.success).toBe(false)
   })
 
