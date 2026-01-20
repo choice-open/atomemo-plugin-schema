@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `PropertyScalar<TName>` type union to group scalar property types (string, number, boolean, encrypted_string)
+- Added `PropertiesScalarSchema` export for scalar properties array validation
+
+### Removed
+
+- Removed `PropertyUIExpressionInputProps` type and `PropertyUIExpressionInputPropsSchema` schema (expression input components are no longer supported)
+- Removed `PropertyUIExpressionInputProps` from `PropertyUIProps` and `PropertyUIString` type unions
+- Removed `PropertyUIDiscriminatorUnionUISchema` schema export
+- Removed `ui` field from `PropertyDiscriminatedUnion` type and `PropertyDiscriminatedUnionSchema` schema (use `discriminator_ui` instead)
+- Removed `settings` field from `BaseDefinition` type and `BaseDefinitionSchema` schema
+
 ## [0.1.1] - 2026-01-20
 
 ### Changed

@@ -133,8 +133,8 @@ The property system is the core of defining plugin parameters and settings:
 Each property type can be configured with different UI components:
 
 **String type components:**
-- `input`, `textarea`, `expression-input`, `expression-textarea`
-- `code-editor`, `select`, `radio-group`
+- `input`, `textarea`, `code-editor`
+- `select`, `radio-group`
 - `emoji-picker`, `color-picker`, `credential-select`
 
 **Number type components:**
