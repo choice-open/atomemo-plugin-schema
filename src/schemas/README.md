@@ -134,7 +134,6 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - `display_name`：显示名称（I18n）
   - `description`：描述（I18n）
   - `icon`：图标（字符串）
-  - `parameters`：参数（Properties）
 - `PluginDefinitionSchema`：插件定义 Schema
   - 继承 `BaseDefinition`（但省略 `parameters`）
   - `author`：作者名称
@@ -143,9 +142,9 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - `version`：版本号（可选）
   - `locales`：支持的语言列表
 - `CredentialDefinitionSchema`：凭证定义 Schema
-  - 继承 `BaseDefinition`
+  - 继承 `BaseDefinition`，但其 `parameters` 字段仅允许标量属性（使用 `PropertiesScalarSchema` / `Array<PropertyScalar>`）
 - `DataSourceDefinitionSchema`：数据源定义 Schema
-  - 完全继承 `BaseDefinition`
+  - 继承 `BaseDefinition`，并增加 `parameters` 字段（使用仅允许标量属性的 `PropertiesScalarSchema`，与 `CredentialDefinition` 一致）
 - `ModelDefinitionSchema`：模型定义 Schema
   - 继承 `BaseDefinition`（但省略 `parameters`）
   - `name`：模型名称（支持 `/` 字符，格式：`model_provider/model_name`）
@@ -163,7 +162,7 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 **关系：**
 
 - 对应 `types/definition.ts` 中的各种 Definition 类型
-- 使用 `property.ts` 中的 `PropertiesSchema`
+- 使用 `property.ts` 中的 `PropertiesSchema` 和 `PropertiesScalarSchema`
 - 使用 `common.ts` 中的 `I18nEntrySchema`
 - 使用 `utils/custom-json-value.ts` 中的 `JsonValueSchema`
 
