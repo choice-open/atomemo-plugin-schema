@@ -224,11 +224,6 @@ describe("PropertyUIStringSchema - component matching", () => {
     expect(result.success).toBe(true)
   })
 
-  test("should accept expression-input component", () => {
-    const result = PropertyUIStringSchema.safeParse({ component: "expression-input" })
-    expect(result.success).toBe(true)
-  })
-
   test("should accept radio-group component", () => {
     const result = PropertyUIStringSchema.safeParse({ component: "radio-group" })
     expect(result.success).toBe(true)

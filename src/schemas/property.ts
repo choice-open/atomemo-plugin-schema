@@ -12,6 +12,7 @@ import type {
   PropertyEncryptedString,
   PropertyNumber,
   PropertyObject,
+  PropertyScalar,
   PropertyString,
 } from "../types"
 import { compact } from "../utils/toolkit"
@@ -22,7 +23,6 @@ import {
   PropertyUICommonPropsSchema,
   PropertyUICredentialIdSchema,
   PropertyUIDiscriminatorUISchema,
-  PropertyUIDiscriminatorUnionUISchema,
   PropertyUIEncryptedStringSchema,
   PropertyUINumberSchema,
   PropertyUIObjectSchema,
@@ -207,7 +207,6 @@ const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
   },
   discriminator: z.string().min(1, "discriminator cannot be empty"),
   discriminator_ui: PropertyUIDiscriminatorUISchema.optional(),
-  ui: PropertyUIDiscriminatorUnionUISchema.optional(),
 })
   .refine(
     (v) => {
@@ -290,18 +289,28 @@ const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyEncryptedStringSchema>, PropertyEncryptedString> = true
 }
 
-const PropertySchema = z.union([
+const PropertyScalarSchema = z.union([
   PropertyStringSchema,
   PropertyBooleanSchema,
   PropertyNumberSchema,
+  PropertyEncryptedStringSchema,
+])
+{
+  const _: IsEqual<z.infer<typeof PropertyScalarSchema>, PropertyScalar<string>> = true
+}
+
+export const PropertiesScalarSchema = z
+  .array(PropertyScalarSchema)
+  .apply(setDuplicatePropertyNamesCheck)
+
+const PropertySchema = z.union([
+  ...PropertyScalarSchema.options,
+  PropertyCredentialIdSchema,
   PropertyArraySchema,
   PropertyObjectSchema,
-  PropertyCredentialIdSchema,
-  PropertyEncryptedStringSchema,
   PropertyDiscriminatedUnionSchema,
 ])
 {
   const _: IsEqual<z.infer<typeof PropertySchema>, Property> = true
 }
-
 export const PropertiesSchema = z.array(PropertySchema).apply(setDuplicatePropertyNamesCheck)

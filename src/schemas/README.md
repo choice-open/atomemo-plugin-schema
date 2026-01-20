@@ -9,6 +9,7 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 通用 Schema 定义。
 
 **Schema：**
+
 - `I18nEntrySchema`：国际化词条验证 Schema
   - 必须是对象字面量
   - 必须包含 `en_US` 键
@@ -16,10 +17,12 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - 语言代码格式：`<语言代码>_<国家或脚本代码>`（第二部份首字母必须大写）
 
 **实现细节：**
+
 - 使用 `z.custom()` 实现自定义验证（Zod 无法定义复杂的字面量模版）
 - 使用 `IsEqual` 确保推断类型与 `I18nText` 类型匹配
 
 **关系：**
+
 - 对应 `types/common.ts` 中的 `I18nText` 类型
 - 被所有需要国际化支持的 Schema 使用
 
@@ -28,19 +31,23 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 属性（Property）相关的 Schema 定义。
 
 **Schema：**
+
 - `PropertyBaseSchema`：属性基类 Schema
 - `PropertyStringSchema`：字符串类型属性 Schema
 - `PropertyNumberSchema`：数字类型属性 Schema（支持 `number` 和 `integer`）
 - `PropertyBooleanSchema`：布尔类型属性 Schema
+- `PropertyEncryptedStringSchema`：加密字符串类型属性 Schema
+- `PropertyScalarSchema`：标量属性类型的联合 Schema（string、number、boolean、encrypted_string）
+- `PropertiesScalarSchema`：标量属性数组 Schema（包含重复名称检查）
 - `PropertyArraySchema`：数组类型属性 Schema
 - `PropertyObjectSchema`：对象类型属性 Schema
 - `PropertyDiscriminatedUnionSchema`：区分联合类型属性 Schema
 - `PropertyCredentialIdSchema`：凭证 ID 类型属性 Schema
-- `PropertyEncryptedStringSchema`：加密字符串类型属性 Schema
 - `PropertySchema`：所有属性类型的联合 Schema
 - `PropertiesSchema`：属性数组 Schema（包含重复名称检查）
 
 **验证规则：**
+
 - 属性名称验证：
   - 不能以 `$` 或空格开头
   - 不能包含 `.`、`[`、`]` 字符
@@ -59,6 +66,7 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - 检查属性名称重复
 
 **关系：**
+
 - 对应 `types/property.ts` 中的各种 Property 类型
 - 使用 `property-ui.ts` 中的 UI Schema
 - 使用 `common.ts` 中的 `I18nEntrySchema`
@@ -69,12 +77,12 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 属性 UI 组件相关的 Schema 定义。
 
 **Schema：**
+
 - `PropertyUICommonPropsSchema`：UI 组件通用属性 Schema
 - `PropertyUIOptionSchema`：选项 Schema（用于下拉、单选等组件）
 - 各种组件特定的 Schema：
   - `PropertyUIInputPropsSchema`：输入框
   - `PropertyUITextareaPropsSchema`：文本域
-  - `PropertyUIExpressionInputPropsSchema`：表达式输入
   - `PropertyUINumberInputPropsSchema`：数字输入
   - `PropertyUICodeEditorPropsSchema`：代码编辑器
   - `PropertyUISingleSelectPropsSchema`：单选下拉
@@ -95,6 +103,7 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - `PropertyUIEncryptedInputPropsSchema`：加密输入
 
 **类型联合 Schema：**
+
 - `PropertyUIPropsSchema`：所有 UI 组件的区分联合 Schema（基于 `component` 字段）
 - `PropertyUIStringSchema`：字符串类型可用的 UI 组件
 - `PropertyUINumberSchema`：数字类型可用的 UI 组件
@@ -103,13 +112,14 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 - `PropertyUIObjectSchema`：对象类型可用的 UI 组件
 - `PropertyUICredentialIdSchema`：凭证 ID 类型可用的 UI 组件
 - `PropertyUIDiscriminatorUISchema`：区分器字段可用的 UI 组件
-- `PropertyUIDiscriminatorUnionUISchema`：区分联合类型可用的 UI 组件
 - `PropertyUIEncryptedStringSchema`：加密字符串类型可用的 UI 组件
 
 **特殊验证：**
+
 - `indentation` 字段：必须是 2-80 之间的偶数（使用字面量联合类型）
 
 **关系：**
+
 - 对应 `types/property-ui.ts` 中的各种 UI 类型
 - 被 `property.ts` 中的各种 Property Schema 使用
 
@@ -118,26 +128,25 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
 插件定义相关的 Schema 定义。
 
 **Schema：**
+
 - `BaseDefinitionSchema`：基础定义 Schema
   - `name`：名称验证（4-64 字符，字母开头，字母或数字结尾，可包含 `_` 和 `-`，但不能连续出现）
   - `display_name`：显示名称（I18n）
   - `description`：描述（I18n）
   - `icon`：图标（字符串）
-  - `parameters`：参数（Properties）
-  - `settings`：设置（可选 Properties）
 - `PluginDefinitionSchema`：插件定义 Schema
-  - 继承 `BaseDefinition`（但省略 `parameters` 和 `settings`）
+  - 继承 `BaseDefinition`（但省略 `parameters`）
   - `author`：作者名称
   - `email`：作者邮箱（验证邮箱格式）
   - `repo`：仓库 URL（可选，验证 HTTP URL）
   - `version`：版本号（可选）
   - `locales`：支持的语言列表
 - `CredentialDefinitionSchema`：凭证定义 Schema
-  - 继承 `BaseDefinition`（但省略 `settings`）
+  - 继承 `BaseDefinition`，但其 `parameters` 字段仅允许标量属性（使用 `PropertiesScalarSchema` / `Array<PropertyScalar>`）
 - `DataSourceDefinitionSchema`：数据源定义 Schema
-  - 完全继承 `BaseDefinition`
+  - 继承 `BaseDefinition`，并增加 `parameters` 字段（使用仅允许标量属性的 `PropertiesScalarSchema`，与 `CredentialDefinition` 一致）
 - `ModelDefinitionSchema`：模型定义 Schema
-  - 继承 `BaseDefinition`（但省略 `parameters` 和 `settings`）
+  - 继承 `BaseDefinition`（但省略 `parameters`）
   - `name`：模型名称（支持 `/` 字符，格式：`model_provider/model_name`）
   - `model_type`：模型类型（目前仅支持 `"llm"`）
   - `default_endpoint`：默认端点（可选 HTTP URL）
@@ -151,8 +160,9 @@ Zod Schema 验证模块。提供所有插件的运行时验证 Schema，与 `typ
   - `invoke`：调用函数（验证函数签名和返回类型）
 
 **关系：**
+
 - 对应 `types/definition.ts` 中的各种 Definition 类型
-- 使用 `property.ts` 中的 `PropertiesSchema`
+- 使用 `property.ts` 中的 `PropertiesSchema` 和 `PropertiesScalarSchema`
 - 使用 `common.ts` 中的 `I18nEntrySchema`
 - 使用 `utils/custom-json-value.ts` 中的 `JsonValueSchema`
 

@@ -80,13 +80,6 @@ interface PropertyUITextareaProps extends PropertyUICommonProps {
   min_height?: number
 }
 
-/** 表达式输入框 UI 属性 */
-interface PropertyUIExpressionInputProps extends PropertyUICommonProps {
-  component: "expression-input" | "expression-textarea"
-  max_height?: number
-  min_height?: number
-}
-
 /** 数字输入框 UI 属性 */
 interface PropertyUINumberInputProps extends PropertyUICommonProps {
   component: "number-input"
@@ -202,7 +195,6 @@ export interface PropertyUICollapsiblePanelProps extends PropertyUICommonProps {
 export type PropertyUIProps =
   | PropertyUIInputProps
   | PropertyUITextareaProps
-  | PropertyUIExpressionInputProps
   | PropertyUINumberInputProps
   | PropertyUICodeEditorProps
   | PropertyUISingleSelectProps
@@ -231,7 +223,6 @@ export type PropertyUINumber = PropertyUINumberInputProps | PropertyUISliderProp
 export type PropertyUIString =
   | PropertyUIInputProps
   | PropertyUITextareaProps
-  | PropertyUIExpressionInputProps
   | PropertyUICodeEditorProps
   | PropertyUISingleSelectProps
   | PropertyUICredentialSelectProps

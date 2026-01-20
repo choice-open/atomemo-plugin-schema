@@ -133,8 +133,8 @@ if (!result.success) {
 每个属性类型可以配置不同的 UI 组件：
 
 **字符串类型可用组件：**
-- `input`、`textarea`、`expression-input`、`expression-textarea`
-- `code-editor`、`select`、`radio-group`
+- `input`、`textarea`、`code-editor`
+- `select`、`radio-group`
 - `emoji-picker`、`color-picker`、`credential-select`
 
 **数字类型可用组件：**

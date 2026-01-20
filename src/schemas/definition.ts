@@ -9,7 +9,7 @@ import type {
 } from "../types"
 import { JsonValueSchema } from "../utils/custom-json-value"
 import { I18nEntrySchema } from "./common"
-import { PropertiesSchema } from "./property"
+import { PropertiesScalarSchema, PropertiesSchema } from "./property"
 
 /**
  * 基础定义模式
@@ -28,15 +28,13 @@ export const BaseDefinitionSchema = z.object({
   display_name: I18nEntrySchema,
   description: I18nEntrySchema,
   icon: z.string(),
-  parameters: PropertiesSchema,
-  settings: PropertiesSchema.optional(),
 })
 {
   const _: IsEqual<z.infer<typeof BaseDefinitionSchema>, BaseDefinition> = true
 }
 
 export const PluginDefinitionSchema = z.object({
-  ...BaseDefinitionSchema.omit({ parameters: true, settings: true }).shape,
+  ...BaseDefinitionSchema.shape,
   author: z.string().optional(),
   email: z.email().optional(),
   repo: z.httpUrl().optional(),
@@ -51,7 +49,8 @@ export const PluginDefinitionSchema = z.object({
 }
 
 export const CredentialDefinitionSchema = z.object({
-  ...BaseDefinitionSchema.omit({ settings: true }).shape,
+  ...BaseDefinitionSchema.shape,
+  parameters: PropertiesScalarSchema,
 })
 {
   const _: IsEqual<z.infer<typeof CredentialDefinitionSchema>, CredentialDefinition> = true
@@ -59,12 +58,13 @@ export const CredentialDefinitionSchema = z.object({
 
 export const DataSourceDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
+  parameters: PropertiesScalarSchema,
 })
 
 export type DataSourceDefinition = z.infer<typeof DataSourceDefinitionSchema>
 
 export const ModelDefinitionSchema = z.object({
-  ...BaseDefinitionSchema.omit({ parameters: true, settings: true }).shape,
+  ...BaseDefinitionSchema.shape,
   name: z.string().regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_/-]){3,63}[a-zA-Z0-9]$/, {
     error:
       "Invalid model name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64 5. allow '/' in the middle",
@@ -152,6 +152,7 @@ export const ToolDefinitionSchema = z.object({
     input: z.tuple([z.object({ args: z.any() })]),
     output: z.promise(JsonValueSchema),
   }),
+  parameters: PropertiesSchema,
 })
 {
   const _: IsEqual<z.infer<typeof ToolDefinitionSchema>, ToolDefinition> = true

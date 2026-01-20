@@ -115,13 +115,6 @@ const PropertyUITextareaPropsSchema = PropertyUICommonPropsSchema.extend({
   min_height: z.number().optional(),
 })
 
-// Expression input component schema
-const PropertyUIExpressionInputPropsSchema = PropertyUICommonPropsSchema.extend({
-  component: z.enum(["expression-input", "expression-textarea"]),
-  max_height: z.number().optional(),
-  min_height: z.number().optional(),
-})
-
 // Number input component schema
 const PropertyUINumberInputPropsSchema = PropertyUICommonPropsSchema.extend({
   component: z.literal("number-input"),
@@ -293,7 +286,6 @@ const PropertyUICollapsiblePanelPropsSchema = PropertyUICommonPropsSchema.extend
 export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
   PropertyUIInputPropsSchema,
   PropertyUITextareaPropsSchema,
-  PropertyUIExpressionInputPropsSchema,
   PropertyUINumberInputPropsSchema,
   PropertyUICodeEditorPropsSchema,
   PropertyUISingleSelectPropsSchema,
@@ -336,7 +328,6 @@ export const PropertyUINumberSchema = z.discriminatedUnion("component", [
 export const PropertyUIStringSchema = z.discriminatedUnion("component", [
   PropertyUIInputPropsSchema,
   PropertyUITextareaPropsSchema,
-  PropertyUIExpressionInputPropsSchema,
   PropertyUICodeEditorPropsSchema,
   PropertyUISingleSelectPropsSchema,
   PropertyUICredentialSelectPropsSchema,
@@ -380,10 +371,6 @@ export const PropertyUIDiscriminatorUISchema = z.discriminatedUnion("component",
   PropertyUISwitchPropsSchema,
   PropertyUISingleSelectPropsSchema,
   PropertyUIRadioGroupPropsSchema,
-])
-
-export const PropertyUIDiscriminatorUnionUISchema = z.discriminatedUnion("component", [
-  PropertyUICollapsiblePanelPropsSchema,
 ])
 
 export const PropertyUIEncryptedStringSchema = z.discriminatedUnion("component", [

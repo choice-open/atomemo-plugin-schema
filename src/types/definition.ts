@@ -1,6 +1,6 @@
 import type { JsonValue } from "../utils/custom-json-value"
 import type { I18nText } from "./common"
-import type { Property } from "./property"
+import type { Property, PropertyScalar } from "./property"
 
 export interface BaseDefinition {
   /**
@@ -19,21 +19,13 @@ export interface BaseDefinition {
    * Icon, allowed to use Emoji or URL address
    */
   icon: string
-  /**
-   * Parameters
-   */
-  parameters: Array<Property>
-  /**
-   * Settings
-   */
-  settings?: Array<Property>
 }
 
 /**
  * Plugin definition
  */
 export interface PluginDefinition<Locales extends string[], TransporterOptions>
-  extends Omit<BaseDefinition, "parameters" | "settings"> {
+  extends BaseDefinition {
   /**
    * The locales to support. Defaults to ["en_US"].
    */
@@ -69,17 +61,21 @@ export type Feature = CredentialDefinition | DataSourceDefinition | ModelDefinit
 /**
  * Credential definition
  */
-export interface CredentialDefinition extends Omit<BaseDefinition, "settings"> {}
+export interface CredentialDefinition extends BaseDefinition {
+  parameters: Array<PropertyScalar>
+}
 
 /**
  * DataSource definition
  */
-export interface DataSourceDefinition extends BaseDefinition {}
+export interface DataSourceDefinition extends BaseDefinition {
+  parameters: Array<PropertyScalar>
+}
 
 /**
  * Model definition
  */
-export interface ModelDefinition extends Omit<BaseDefinition, "parameters" | "settings"> {
+export interface ModelDefinition extends BaseDefinition {
   /**
    * The unique name of the model.
    *
@@ -254,4 +250,8 @@ export interface ToolDefinition extends BaseDefinition {
    */
   // biome-ignore lint/suspicious/noExplicitAny: Only tools knowns the args type.
   invoke: (context: { args: any }) => Promise<JsonValue>
+  /**
+   * Parameters
+   */
+  parameters: Array<Property>
 }

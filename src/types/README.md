@@ -9,9 +9,11 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 基础通用类型定义。
 
 **类型：**
+
 - `I18nText`：国际化文本类型，必须包含 `en_US` 字段，支持其他语言代码（格式：`<语言代码>_<国家或脚本代码>`）
 
 **关系：**
+
 - 对应 `schemas/common.ts` 中的 `I18nEntrySchema`
 - 被所有需要国际化支持的模块使用
 
@@ -20,24 +22,28 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 属性（Property）相关的类型定义。
 
 **类型：**
+
 - `PropertyBase<TName>`：属性基类，包含名称、显示名称、描述、显示条件等通用字段
 - `PropertyString`：字符串类型属性
 - `PropertyNumber`：数字类型属性（支持 `number` 和 `integer`）
 - `PropertyBoolean`：布尔类型属性
+- `PropertyEncryptedString`：加密字符串类型属性
+- `PropertyScalar<TName>`：标量属性类型的联合（string、number、boolean、encrypted_string）
 - `PropertyArray`：数组类型属性
 - `PropertyObject`：对象类型属性
 - `PropertyDiscriminatedUnion`：区分联合类型属性
 - `PropertyCredentialId`：凭证 ID 类型属性
-- `PropertyEncryptedString`：加密字符串类型属性
 - `Property<TName, TValue>`：所有属性类型的联合类型
 
 **特性：**
+
 - 支持条件显示（`display.hide/show`）
 - 支持 AI 相关配置（`ai.llm_description`）
 - 支持常量值、默认值、枚举值
 - 支持嵌套结构和递归定义
 
 **关系：**
+
 - 对应 `schemas/property.ts` 中的各种 Property Schema
 - 被 `definition.ts` 中的 `BaseDefinition` 使用
 
@@ -46,10 +52,10 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 属性 UI 组件相关的类型定义。
 
 **类型：**
+
 - `PropertyUICommonProps`：UI 组件通用属性（禁用、提示、占位符、只读、敏感、宽度、缩进等）
 - `PropertyUIInputProps`：输入框组件
 - `PropertyUITextareaProps`：文本域组件
-- `PropertyUIExpressionInputProps`：表达式输入组件
 - `PropertyUINumberInputProps`：数字输入组件
 - `PropertyUICodeEditorProps`：代码编辑器组件
 - `PropertyUISingleSelectProps`：单选下拉组件
@@ -70,6 +76,7 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 - `PropertyUIEncryptedInputProps`：加密输入组件
 
 **类型联合：**
+
 - `PropertyUIString`：字符串类型可用的 UI 组件
 - `PropertyUINumber`：数字类型可用的 UI 组件
 - `PropertyUIBoolean`：布尔类型可用的 UI 组件
@@ -79,6 +86,7 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 - `PropertyUIEncryptedString`：加密字符串类型可用的 UI 组件
 
 **关系：**
+
 - 对应 `schemas/property-ui.ts` 中的各种 UI Schema
 - 被 `property.ts` 中的各种 Property 类型使用
 
@@ -87,6 +95,7 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 插件定义相关的类型定义。
 
 **类型：**
+
 - `BaseDefinition`：基础定义，所有功能定义的基类
 - `PluginDefinition<Locales, TransporterOptions>`：插件定义
 - `CredentialDefinition`：凭证定义
@@ -96,6 +105,7 @@ TypeScript 类型定义模块。提供所有插件的类型接口，与 `schemas
 - `Feature`：所有功能类型的联合类型
 
 **关系：**
+
 - 对应 `schemas/definition.ts` 中的各种 Definition Schema
 - 使用 `property.ts` 中的 `Property` 类型
 - 使用 `utils/custom-json-value.ts` 中的 `JsonValue` 类型
