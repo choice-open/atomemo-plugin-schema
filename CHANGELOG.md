@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-01-20
+
 ### Changed
 
 - Made `author` and `email` fields optional in `PluginDefinition` type and schema
@@ -45,5 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/choice-open/atomemo-plugin-schema/releases/tag/v0.1.0
