@@ -37,8 +37,8 @@ export const BaseDefinitionSchema = z.object({
 
 export const PluginDefinitionSchema = z.object({
   ...BaseDefinitionSchema.omit({ parameters: true, settings: true }).shape,
-  author: z.string(),
-  email: z.email(),
+  author: z.string().optional(),
+  email: z.email().optional(),
   repo: z.httpUrl().optional(),
   version: z.string().optional(),
   locales: z.array(z.string()),

@@ -41,11 +41,11 @@ export interface PluginDefinition<Locales extends string[], TransporterOptions>
   /**
    * The author's name of the plugin.
    */
-  author: string
+  author?: string
   /**
    * The author's email address.
    */
-  email: string
+  email?: string
   /**
    * The source URL of the plugin.
    */

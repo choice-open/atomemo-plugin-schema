@@ -68,21 +68,16 @@ import type { PluginDefinition } from '@choiceopen/atomemo-plugin-schema/types';
 const pluginDefinition: PluginDefinition = {
   name: 'my-plugin',
   display_name: {
-    en: 'My Plugin',
+    en_US: 'My Plugin',
     zh_CN: '我的插件',
   },
   description: {
-    en: 'A sample plugin for Atomemo',
+    en_US: 'A sample plugin for Atomemo',
     zh_CN: '一个示例插件',
   },
   icon: 'https://example.com/icon.png',
-  author: {
-    name: 'John Doe',
-    email: 'john@example.com',
-    repository_url: 'https://github.com/john/my-plugin',
-  },
   version: '1.0.0',
-  supported_languages: ['en', 'zh_CN'],
+  locales: ['en', 'zh_CN'],
 };
 
 // Validate at runtime
@@ -263,6 +258,10 @@ Contributions are welcome! Please follow these guidelines:
 5. Commit your changes (`git commit -m 'Add some amazing feature'`)
 6. Push to the branch (`git push origin feature/amazing-feature`)
 7. Open a Pull Request
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for a list of changes and version history.
 
 ## License
 

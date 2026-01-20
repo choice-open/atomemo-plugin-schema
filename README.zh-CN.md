@@ -68,21 +68,16 @@ import type { PluginDefinition } from '@choiceopen/atomemo-plugin-schema/types';
 const pluginDefinition: PluginDefinition = {
   name: 'my-plugin',
   display_name: {
-    en: 'My Plugin',
+    en_US: 'My Plugin',
     zh_CN: '我的插件',
   },
   description: {
-    en: 'A sample plugin for Atomemo',
+    en_US: 'A sample plugin for Atomemo',
     zh_CN: '一个示例插件',
   },
   icon: 'https://example.com/icon.png',
-  author: {
-    name: 'John Doe',
-    email: 'john@example.com',
-    repository_url: 'https://github.com/john/my-plugin',
-  },
   version: '1.0.0',
-  supported_languages: ['en', 'zh_CN'],
+  locales: ['en', 'zh_CN'],
 };
 
 // 运行时验证
@@ -263,6 +258,10 @@ atomemo-plugin-schema/
 5. 提交更改（`git commit -m '添加一些很棒的功能'`）
 6. 推送到分支（`git push origin feature/amazing-feature`）
 7. 打开 Pull Request
+
+## 变更日志
+
+查看 [CHANGELOG.md](./CHANGELOG.md) 了解变更列表和版本历史。
 
 ## 许可证
 

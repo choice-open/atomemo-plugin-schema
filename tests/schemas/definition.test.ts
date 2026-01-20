@@ -153,7 +153,6 @@ describe("PluginDefinitionSchema", () => {
     display_name: validI18n,
     description: validI18n,
     icon: "🔌",
-    author: "Test Author",
     email: "test@example.com",
     locales: ["en_US"],
   }
@@ -215,7 +214,22 @@ describe("PluginDefinitionSchema", () => {
   })
 
   describe("valid plugin definition", () => {
+    test("should accept valid plugin without optional fields", () => {
+      const result = PluginDefinitionSchema.safeParse(validPlugin)
+      expect(result.success).toBe(true)
+    })
+
     test("should accept valid plugin with all fields", () => {
+      const result = PluginDefinitionSchema.safeParse({
+        ...validPlugin,
+        author: "Test Author",
+        repo: "https://github.com/org/repo",
+        version: "1.0.0",
+      })
+      expect(result.success).toBe(true)
+    })
+
+    test("should accept valid plugin without author", () => {
       const result = PluginDefinitionSchema.safeParse({
         ...validPlugin,
         repo: "https://github.com/org/repo",
