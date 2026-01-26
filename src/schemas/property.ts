@@ -299,9 +299,9 @@ const PropertyScalarSchema = z.union([
   const _: IsEqual<z.infer<typeof PropertyScalarSchema>, PropertyScalar<string>> = true
 }
 
-export const PropertiesScalarSchema = z
-  .array(PropertyScalarSchema)
-  .apply(setDuplicatePropertyNamesCheck)
+export const PropertiesScalarSchema = z.lazy(() =>
+  z.array(PropertyScalarSchema).apply(setDuplicatePropertyNamesCheck),
+)
 
 const PropertySchema = z.union([
   ...PropertyScalarSchema.options,
@@ -313,4 +313,5 @@ const PropertySchema = z.union([
 {
   const _: IsEqual<z.infer<typeof PropertySchema>, Property> = true
 }
-export const PropertiesSchema = z.array(PropertySchema).apply(setDuplicatePropertyNamesCheck)
+
+export const PropertiesSchema = ArrayPropertiesSchema
