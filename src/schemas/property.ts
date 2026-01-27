@@ -154,25 +154,23 @@ const PropertyBooleanSchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyBooleanSchema>, PropertyBoolean<string>> = true
 }
 
-function setDuplicatePropertyNamesCheck<T extends z.ZodType<Array<Property>>>(schema: T) {
-  return schema.refine(
-    (properties) => {
-      const names = new Set<string>()
-      for (const prop of properties) {
-        if (names.has(prop.name)) return false
-        names.add(prop.name)
-      }
-      return true
-    },
-    {
-      error: "duplicate property names are not allowed",
-    },
-  )
+const checkDuplicateNames = {
+  checkFn: (properties: { name: string }[]) => {
+    const names = new Set<string>()
+    for (const prop of properties) {
+      if (names.has(prop.name)) return false
+      names.add(prop.name)
+    }
+    return true
+  },
+  customError: {
+    error: "duplicate property names are not allowed",
+  } as const,
 }
 
 // use type assertion and lazy to avoid circular reference error
 const ArrayPropertiesSchema: z.ZodType<PropertyObject["properties"]> = z.lazy(() =>
-  z.array(PropertySchema).apply(setDuplicatePropertyNamesCheck),
+  z.array(PropertySchema).refine(checkDuplicateNames.checkFn, checkDuplicateNames.customError),
 )
 
 const additionalPropertiesSchema: z.ZodType<Property> = z.lazy(() => PropertySchema)
@@ -300,7 +298,9 @@ const PropertyScalarSchema = z.union([
 }
 
 export const PropertiesScalarSchema = z.lazy(() =>
-  z.array(PropertyScalarSchema).apply(setDuplicatePropertyNamesCheck),
+  z
+    .array(PropertyScalarSchema)
+    .refine(checkDuplicateNames.checkFn, checkDuplicateNames.customError),
 )
 
 const PropertySchema = z.union([
