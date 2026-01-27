@@ -37,15 +37,15 @@ interface RootFilter<TSchema extends JsonObject = JsonObject> {
   /**
    * Joins conditions with logical AND; all conditions must be true
    */
-  $and?: Array<DisplayCondition<TSchema>>
+  $and?: Array<DisplayCondition<TSchema>> | null
   /**
    * Joins conditions with logical NOR; none of the conditions must be true
    */
-  $nor?: Array<DisplayCondition<TSchema>>
+  $nor?: Array<DisplayCondition<TSchema>> | null
   /**
    * Joins conditions with logical OR; at least one condition must be true
    */
-  $or?: Array<DisplayCondition<TSchema>>
+  $or?: Array<DisplayCondition<TSchema>> | null
 }
 
 type Condition<T extends JsonValue = JsonValue> = T | FilterOperators<T>
@@ -58,55 +58,55 @@ export interface FilterOperators<TValue extends JsonValue = JsonValue> {
   /**
    * Matches values equal to a specified value
    */
-  $eq?: TValue
+  $eq?: TValue | null
   /**
    * Checks if a field exists
    */
-  $exists?: boolean
+  $exists?: boolean | null
   /**
    * Matches values greater than a specified value
    */
-  $gt?: TValue
+  $gt?: TValue | null
   /**
    * Matches values greater than or equal to a specified value
    */
-  $gte?: TValue
+  $gte?: TValue | null
   /**
    * Matches any value specified in an array
    */
-  $in?: Array<TValue>
+  $in?: Array<TValue> | null
   /**
    * Matches values less than a specified value
    */
-  $lt?: TValue
+  $lt?: TValue | null
   /**
    * Matches values less than or equal to a specified value
    */
-  $lte?: TValue
+  $lte?: TValue | null
   /**
    * Matches values based on a modulo operation; value: [divisor, remainder]
    */
-  $mod?: TValue extends number ? [number, number] : never
+  $mod?: TValue extends number ? [number, number] | null : never
   /**
    * Matches values not equal to a specified value
    */
-  $ne?: TValue
+  $ne?: TValue | null
   /**
    * Matches values not in a specified array
    */
-  $nin?: Array<TValue>
+  $nin?: Array<TValue> | null
   /**
    * Regex options: i=case-insensitive, m=multiline, x=ignore whitespace, s=dotAll, u=unicode
    */
-  $options?: TValue extends string ? string : never
+  $options?: TValue extends string ? string | null : never
   /**
    * Matches values against a regular expression pattern
    */
-  $regex?: TValue extends string ? RegExp | string : never
+  $regex?: TValue extends string ? RegExp | string | null : never
   /**
    * Matches arrays with a specified number of elements
    */
-  $size?: TValue extends Array<unknown> ? number : never
+  $size?: TValue extends Array<unknown> ? number | null : never
 }
 
 export interface PropertyBase<TName extends string = string> {
@@ -117,29 +117,29 @@ export interface PropertyBase<TName extends string = string> {
   /**
    * Display name (supports i18n)
    */
-  display_name?: I18nText
+  display_name?: I18nText | null
   /**
    * Whether this property is required
    */
-  required?: boolean
+  required?: boolean | null
   /**
    * Display condition; if not set, property is always visible
    */
   display?: {
     // display condition only evaluates sibling properties, not the property itself
-    hide?: DisplayCondition
-    show?: DisplayCondition
-  }
+    hide?: DisplayCondition | null
+    show?: DisplayCondition | null
+  } | null
   /**
    * AI-related configuration
    */
   ai?: {
-    llm_description?: I18nText
-  }
+    llm_description?: I18nText | null
+  } | null
   /**
    * UI configuration for how the property is displayed
    */
-  ui?: PropertyUICommonProps
+  ui?: PropertyUICommonProps | null
 }
 
 export interface PropertyString<TName extends string = string> extends PropertyBase<TName> {
@@ -147,24 +147,24 @@ export interface PropertyString<TName extends string = string> extends PropertyB
   /**
    * Restrict value to a single constant
    */
-  constant?: string
+  constant?: string | null
   /**
    * Default value when not specified
    */
-  default?: string
+  default?: string | null
   /**
    * Restrict value to a set of allowed values
    */
-  enum?: Array<string>
+  enum?: Array<string> | null
   /**
    * Maximum string length
    */
-  max_length?: number
+  max_length?: number | null
   /**
    * Minimum string length
    */
-  min_length?: number
-  ui?: PropertyUIString
+  min_length?: number | null
+  ui?: PropertyUIString | null
 }
 
 export interface PropertyNumber<TName extends string = string> extends PropertyBase<TName> {
@@ -172,24 +172,24 @@ export interface PropertyNumber<TName extends string = string> extends PropertyB
   /**
    * Restrict value to a single constant
    */
-  constant?: number
+  constant?: number | null
   /**
    * Default value when not specified
    */
-  default?: number
+  default?: number | null
   /**
    * Restrict value to a set of allowed values
    */
-  enum?: Array<number>
+  enum?: Array<number> | null
   /**
    * Maximum value (inclusive)
    */
-  maximum?: number
+  maximum?: number | null
   /**
    * Minimum value (inclusive)
    */
-  minimum?: number
-  ui?: PropertyUINumber
+  minimum?: number | null
+  ui?: PropertyUINumber | null
 }
 
 export interface PropertyBoolean<TName extends string = string> extends PropertyBase<TName> {
@@ -197,16 +197,16 @@ export interface PropertyBoolean<TName extends string = string> extends Property
   /**
    * Restrict value to a single constant
    */
-  constant?: boolean
+  constant?: boolean | null
   /**
    * Default value when not specified
    */
-  default?: boolean
+  default?: boolean | null
   /**
    * Restrict value to a set of allowed values
    */
-  enum?: Array<boolean>
-  ui?: PropertyUIBoolean
+  enum?: Array<boolean> | null
+  ui?: PropertyUIBoolean | null
 }
 
 /**
@@ -240,22 +240,22 @@ export interface PropertyObject<
   /**
    * Restrict value to a single constant
    */
-  constant?: TValue
+  constant?: TValue | null
   /**
    * Default value when not specified
    */
-  default?: TValue
+  default?: TValue | null
   /**
    * Restrict value to a set of allowed values
    */
-  enum?: Array<TValue>
+  enum?: Array<TValue> | null
   /**
    * Schema for additional properties beyond those defined in `properties`.
    * Supports dynamic keys with values conforming to the specified property schema.
    * Semantics similar to JSON Schema's additionalProperties: https://json-schema.org/draft/2019-09/draft-handrews-json-schema-02#additionalProperties
    */
-  additional_properties?: Property
-  ui?: PropertyUIObject
+  additional_properties?: Property | null
+  ui?: PropertyUIObject | null
 }
 
 export interface PropertyDiscriminatedUnion<
@@ -274,14 +274,18 @@ export interface PropertyDiscriminatedUnion<
   /**
    * UI component for displaying the discriminator field
    */
-  discriminator_ui?: PropertyUISwitchProps | PropertyUISingleSelectProps | PropertyUIRadioGroupProps
+  discriminator_ui?:
+    | PropertyUISwitchProps
+    | PropertyUISingleSelectProps
+    | PropertyUIRadioGroupProps
+    | null
 }
 
 export interface PropertyArray<TName extends string = string> extends PropertyBase<TName> {
   type: "array"
-  constant?: Array<JsonValue>
-  default?: Array<JsonValue>
-  enum?: Array<Array<JsonValue>>
+  constant?: Array<JsonValue> | null
+  default?: Array<JsonValue> | null
+  enum?: Array<Array<JsonValue>> | null
   /**
    * Item schema for array elements
    */
@@ -289,12 +293,12 @@ export interface PropertyArray<TName extends string = string> extends PropertyBa
   /**
    * Maximum array size (inclusive)
    */
-  max_items?: number
+  max_items?: number | null
   /**
    * Minimum array size (inclusive)
    */
-  min_items?: number
-  ui?: PropertyUIArray
+  min_items?: number | null
+  ui?: PropertyUIArray | null
 }
 
 export interface PropertyCredentialId<TName extends string = string> extends PropertyBase<TName> {
@@ -305,13 +309,13 @@ export interface PropertyCredentialId<TName extends string = string> extends Pro
    * **Note:** The name must match exactly, otherwise the system will be unable to find the corresponding credential.
    */
   credential_name: string
-  ui?: PropertyUICredentialId // the ui component for selecting the credential
+  ui?: PropertyUICredentialId | null // the ui component for selecting the credential
 }
 
 export interface PropertyEncryptedString<TName extends string = string>
   extends PropertyBase<TName> {
   type: "encrypted_string"
-  ui?: PropertyUIEncryptedString
+  ui?: PropertyUIEncryptedString | null
 }
 
 export type PropertyScalar<TName extends string = string> =

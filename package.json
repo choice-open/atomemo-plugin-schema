@@ -1,6 +1,6 @@
 {
   "name": "@choiceopen/atomemo-plugin-schema",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Schema for developing Choiceform atomemo plugins",
   "homepage": "https://github.com/choice-open/atomemo-plugin-schema#readme",
   "bugs": {

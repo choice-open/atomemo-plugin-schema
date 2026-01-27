@@ -35,32 +35,32 @@ const JsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
 )
 
 const FilterOperatorsSchema = z.object({
-  $eq: JsonValueSchema.optional(),
-  $exists: z.boolean().optional(),
-  $gt: JsonValueSchema.optional(),
-  $gte: JsonValueSchema.optional(),
-  $in: z.array(JsonValueSchema).optional(),
-  $lt: JsonValueSchema.optional(),
-  $lte: JsonValueSchema.optional(),
-  $mod: z.tuple([z.number(), z.number()]).optional(),
-  $ne: JsonValueSchema.optional(),
-  $nin: z.array(JsonValueSchema).optional(),
-  $options: z.string().optional(),
-  $regex: z.union([z.string(), z.instanceof(RegExp)]).optional(),
-  $size: z.number().optional(),
+  $eq: JsonValueSchema.nullish(),
+  $exists: z.boolean().nullish(),
+  $gt: JsonValueSchema.nullish(),
+  $gte: JsonValueSchema.nullish(),
+  $in: z.array(JsonValueSchema).nullish(),
+  $lt: JsonValueSchema.nullish(),
+  $lte: JsonValueSchema.nullish(),
+  $mod: z.tuple([z.number(), z.number()]).nullish(),
+  $ne: JsonValueSchema.nullish(),
+  $nin: z.array(JsonValueSchema).nullish(),
+  $options: z.string().nullish(),
+  $regex: z.union([z.string(), z.instanceof(RegExp)]).nullish(),
+  $size: z.number().nullish(),
 })
 
 const ConditionSchema = z.union([JsonValueSchema, FilterOperatorsSchema])
 
 const RootFilterSchema = z.object({
   get $and() {
-    return z.array(FilterSchema).optional()
+    return z.array(FilterSchema).nullish()
   },
   get $nor() {
-    return z.array(FilterSchema).optional()
+    return z.array(FilterSchema).nullish()
   },
   get $or() {
-    return z.array(FilterSchema).optional()
+    return z.array(FilterSchema).nullish()
   },
 })
 {
@@ -98,20 +98,20 @@ const PropertyBaseSchema = z.object({
       },
     ),
 
-  display_name: I18nEntrySchema.optional(),
-  required: z.boolean().optional(),
+  display_name: I18nEntrySchema.nullish(),
+  required: z.boolean().nullish(),
   display: z
     .object({
-      hide: FilterSchema.optional(),
-      show: FilterSchema.optional(),
+      hide: FilterSchema.nullish(),
+      show: FilterSchema.nullish(),
     })
-    .optional(),
+    .nullish(),
   ai: z
     .object({
-      llm_description: I18nEntrySchema.optional(),
+      llm_description: I18nEntrySchema.nullish(),
     })
-    .optional(),
-  ui: PropertyUICommonPropsSchema.optional(),
+    .nullish(),
+  ui: PropertyUICommonPropsSchema.nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyBaseSchema>, PropertyBase<string>> = true
@@ -119,12 +119,12 @@ const PropertyBaseSchema = z.object({
 
 const PropertyStringSchema = PropertyBaseSchema.extend({
   type: z.literal("string"),
-  constant: z.string().optional(),
-  default: z.string().optional(),
-  enum: z.array(z.string()).optional(),
-  max_length: z.number().optional(),
-  min_length: z.number().optional(),
-  ui: PropertyUIStringSchema.optional(),
+  constant: z.string().nullish(),
+  default: z.string().nullish(),
+  enum: z.array(z.string()).nullish(),
+  max_length: z.number().nullish(),
+  min_length: z.number().nullish(),
+  ui: PropertyUIStringSchema.nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyStringSchema>, PropertyString<string>> = true
@@ -132,12 +132,12 @@ const PropertyStringSchema = PropertyBaseSchema.extend({
 
 const PropertyNumberSchema = PropertyBaseSchema.extend({
   type: z.union([z.literal("number"), z.literal("integer")]),
-  constant: z.number().optional(),
-  default: z.number().optional(),
-  enum: z.array(z.number()).optional(),
-  maximum: z.number().optional(),
-  minimum: z.number().optional(),
-  ui: PropertyUINumberSchema.optional(),
+  constant: z.number().nullish(),
+  default: z.number().nullish(),
+  enum: z.array(z.number()).nullish(),
+  maximum: z.number().nullish(),
+  minimum: z.number().nullish(),
+  ui: PropertyUINumberSchema.nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyNumberSchema>, PropertyNumber<string>> = true
@@ -145,10 +145,10 @@ const PropertyNumberSchema = PropertyBaseSchema.extend({
 
 const PropertyBooleanSchema = PropertyBaseSchema.extend({
   type: z.literal("boolean"),
-  constant: z.boolean().optional(),
-  default: z.boolean().optional(),
-  enum: z.array(z.boolean()).optional(),
-  ui: PropertyUIBooleanSchema.optional(),
+  constant: z.boolean().nullish(),
+  default: z.boolean().nullish(),
+  enum: z.array(z.boolean()).nullish(),
+  ui: PropertyUIBooleanSchema.nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyBooleanSchema>, PropertyBoolean<string>> = true
@@ -180,11 +180,11 @@ const additionalPropertiesSchema: z.ZodType<Property> = z.lazy(() => PropertySch
 const PropertyObjectSchema = PropertyBaseSchema.extend({
   type: z.literal("object"),
   properties: ArrayPropertiesSchema,
-  additional_properties: additionalPropertiesSchema.optional(),
-  constant: z.record(z.string(), JsonValueSchema).optional(),
-  default: z.record(z.string(), JsonValueSchema).optional(),
-  enum: z.array(z.record(z.string(), JsonValueSchema)).optional(),
-  ui: PropertyUIObjectSchema.optional(),
+  additional_properties: additionalPropertiesSchema.nullish(),
+  constant: z.record(z.string(), JsonValueSchema).nullish(),
+  default: z.record(z.string(), JsonValueSchema).nullish(),
+  enum: z.array(z.record(z.string(), JsonValueSchema)).nullish(),
+  ui: PropertyUIObjectSchema.nullish(),
 }).refine(
   (v) => {
     if (v.constant) return v.properties.length === 0
@@ -206,7 +206,7 @@ const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
     return z.array(PropertyObjectSchema).min(2, "anyOf must have at least two items")
   },
   discriminator: z.string().min(1, "discriminator cannot be empty"),
-  discriminator_ui: PropertyUIDiscriminatorUISchema.optional(),
+  discriminator_ui: PropertyUIDiscriminatorUISchema.nullish(),
 })
   .refine(
     (v) => {
@@ -258,15 +258,15 @@ const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
 
 const PropertyArraySchema = PropertyBaseSchema.extend({
   type: z.literal("array"),
-  constant: z.array(JsonValueSchema).optional(),
-  default: z.array(JsonValueSchema).optional(),
-  enum: z.array(z.array(JsonValueSchema)).optional(),
+  constant: z.array(JsonValueSchema).nullish(),
+  default: z.array(JsonValueSchema).nullish(),
+  enum: z.array(z.array(JsonValueSchema)).nullish(),
   get items() {
     return PropertySchema
   },
-  max_items: z.number().optional(),
-  min_items: z.number().optional(),
-  ui: PropertyUIArraySchema.optional(),
+  max_items: z.number().nullish(),
+  min_items: z.number().nullish(),
+  ui: PropertyUIArraySchema.nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyArraySchema>, PropertyArray> = true
@@ -275,7 +275,7 @@ const PropertyArraySchema = PropertyBaseSchema.extend({
 const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
   type: z.literal("credential_id"),
   credential_name: z.string().min(1, "credential_name cannot be empty"),
-  ui: PropertyUICredentialIdSchema.optional(),
+  ui: PropertyUICredentialIdSchema.nullish(),
 })
 
 {
@@ -283,7 +283,7 @@ const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
 }
 const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
   type: z.literal("encrypted_string"),
-  ui: PropertyUIEncryptedStringSchema.optional(),
+  ui: PropertyUIEncryptedStringSchema.nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyEncryptedStringSchema>, PropertyEncryptedString> = true
