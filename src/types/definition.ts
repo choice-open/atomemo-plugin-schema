@@ -33,15 +33,15 @@ export interface PluginDefinition<Locales extends string[], TransporterOptions>
   /**
    * The author's name of the plugin.
    */
-  author?: string
+  author?: string | null
   /**
    * The author's email address.
    */
-  email?: string
+  email?: string | null
   /**
    * The source URL of the plugin.
    */
-  repo?: string
+  repo?: string | null
   /**
    * The version of the plugin.
    *
@@ -49,7 +49,7 @@ export interface PluginDefinition<Locales extends string[], TransporterOptions>
    *
    * We recommend doing it this way, but if you do provide this value, please ensure that it remains consistent with the version field in package.json.
    */
-  version?: string
+  version?: string | null
   /**
    * The options for the transporter.
    */

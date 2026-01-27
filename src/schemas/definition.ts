@@ -35,10 +35,10 @@ export const BaseDefinitionSchema = z.object({
 
 export const PluginDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
-  author: z.string().optional(),
-  email: z.email().optional(),
-  repo: z.httpUrl().optional(),
-  version: z.string().optional(),
+  author: z.string().nullish(),
+  email: z.email().nullish(),
+  repo: z.httpUrl().nullish(),
+  version: z.string().nullish(),
   locales: z.array(z.string()),
 })
 {
