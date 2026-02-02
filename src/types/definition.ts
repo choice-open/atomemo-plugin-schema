@@ -54,6 +54,10 @@ export interface PluginDefinition<Locales extends string[], TransporterOptions>
    * The options for the transporter.
    */
   transporterOptions?: TransporterOptions
+  /**
+   * The programming language the plugin is implemented in.
+   */
+  lang: "elixir" | "typescript"
 }
 
 export type Feature = CredentialDefinition | DataSourceDefinition | ModelDefinition | ToolDefinition

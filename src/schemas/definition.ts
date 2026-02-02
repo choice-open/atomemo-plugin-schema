@@ -40,6 +40,7 @@ export const PluginDefinitionSchema = z.object({
   repo: z.httpUrl().nullish(),
   version: z.string().nullish(),
   locales: z.array(z.string()),
+  lang: z.enum(["elixir", "typescript"]),
 })
 {
   const _: IsEqual<

@@ -2,7 +2,7 @@
 
 [English](./README.md) | [中文](./README.zh-CN.md)
 
-A comprehensive TypeScript type definitions and Zod schema validation library for developing Choiceform Atomemo plugins. This library ensures type safety at compile time and runtime validation for plugin definitions.
+A comprehensive TypeScript type definitions and Zod schema validation library for developing Choiceform Atomemo plugins. This library ensures type safety at compile time and runtime validation for plugin definitions. Plugins must declare the implementation language via the `lang` field (currently `elixir` or `typescript`).
 
 ## Features
 
@@ -78,6 +78,7 @@ const pluginDefinition: PluginDefinition = {
   icon: 'https://example.com/icon.png',
   version: '1.0.0',
   locales: ['en', 'zh_CN'],
+  lang: 'typescript',
 };
 
 // Validate at runtime

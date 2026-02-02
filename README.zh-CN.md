@@ -2,7 +2,7 @@
 
 [English](./README.md) | [中文](./README.zh-CN.md)
 
-一个全面的 TypeScript 类型定义和 Zod Schema 验证库，用于开发 Choiceform Atomemo 插件。该库确保插件定义在编译时和运行时的类型安全与验证。
+一个全面的 TypeScript 类型定义和 Zod Schema 验证库，用于开发 Choiceform Atomemo 插件。该库确保插件定义在编译时和运行时的类型安全与验证。插件需要通过 `lang` 字段声明实现语言（目前支持 `elixir` 与 `typescript`）。
 
 ## 特性
 
@@ -78,6 +78,7 @@ const pluginDefinition: PluginDefinition = {
   icon: 'https://example.com/icon.png',
   version: '1.0.0',
   locales: ['en', 'zh_CN'],
+  lang: 'typescript',
 };
 
 // 运行时验证
