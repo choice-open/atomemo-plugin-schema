@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-02-09
+
+### Added
+
+- `authenticate` method to `CredentialDefinition` for LLM authentication
+- Detailed type definitions for `authenticate` method input and output
+- `credentials` field to `ToolDefinition.invoke` method input
+
+### Changed
+
+- Enhanced type safety for `ToolDefinition.invoke` method by replacing `any` with structured type
+- Updated all comments from Chinese to English for consistency
+- Changed build output format from CommonJS to ES modules (.mjs extension)
+- Updated dependencies:
+  - type-fest: ^5.4.1 → ^5.4.4
+  - @biomejs/biome: ^2.3.11 → ^2.3.14
+  - @types/bun: ^1.3.6 → ^1.3.8
+  - bumpp: ^10.4.0 → ^10.4.1
+  - tsdown: ^0.19.0 → ^0.20.3
+  - zod: ^4.3.5 → ^4.3.6
+- Added `--clean` flag to prepublishOnly script for cleaner builds
+- Updated tsdown config to focus on ES modules output
+
 ## [0.1.8] - 2026-02-02
 
 ### Added
@@ -68,16 +91,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added `PropertyScalar<TName>` type union to group scalar property types (string, number, boolean, encrypted_string)
-- Added `PropertiesScalarSchema` export for scalar properties array validation
+- `PropertyScalar<TName>` type union to group scalar property types (string, number, boolean, encrypted_string)
+- `PropertiesScalarSchema` export for scalar properties array validation
 
 ### Removed
 
-- Removed `PropertyUIExpressionInputProps` type and `PropertyUIExpressionInputPropsSchema` schema (expression input components are no longer supported)
-- Removed `PropertyUIExpressionInputProps` from `PropertyUIProps` and `PropertyUIString` type unions
-- Removed `PropertyUIDiscriminatorUnionUISchema` schema export
-- Removed `ui` field from `PropertyDiscriminatedUnion` type and `PropertyDiscriminatedUnionSchema` schema (use `discriminator_ui` instead)
-- Removed `settings` field from `BaseDefinition` type and `BaseDefinitionSchema` schema
+- `PropertyUIExpressionInputProps` type and `PropertyUIExpressionInputPropsSchema` schema (expression input components are no longer supported)
+- `PropertyUIExpressionInputProps` from `PropertyUIProps` and `PropertyUIString` type unions
+- `PropertyUIDiscriminatorUnionUISchema` schema export
+- `ui` field from `PropertyDiscriminatedUnion` type and `PropertyDiscriminatedUnionSchema` schema (use `discriminator_ui` instead)
+- `settings` field from `BaseDefinition` type and `BaseDefinitionSchema` schema
 
 ## [0.1.1] - 2026-01-20
 
@@ -89,13 +112,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added CHANGELOG.md following Keep a Changelog format
-- Added Changelog section links in README and README.zh-CN.md
+- CHANGELOG.md following Keep a Changelog format
+- Changelog section links in README and README.zh-CN.md
 
-### Tests
+### Fixed
 
-- Updated tests to reflect `author` and `email` as optional fields
-- Added test cases for plugin definitions without optional fields
+- Tests to reflect `author` and `email` as optional fields
+- Test cases for plugin definitions without optional fields
 
 ## [0.1.0] - 2025-01-20
 
@@ -105,12 +128,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript type definitions for plugin development
 - Zod schema validation for runtime type checking
 - Internationalization support with `I18nText` type and `I18nEntrySchema`
-- Property system with support for:
+- Property system with support for various property types
 - UI component system with various component types for different property types
 - Conditional display system with support for comparison, existence, set operations, regex matching, and logical combination operators
 - Development environment support with direct source file exports for better debugging
 - Comprehensive test suite with 193+ test cases
 - Bilingual documentation (English and Chinese)
+- Comprehensive README with installation, quick start, and API reference
+- Chinese version of README (README.zh-CN.md)
+- Project structure documentation
+- Development guidelines and contributing guide
 
 ### Documentation
 
@@ -119,6 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
+[0.2.0]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.8...v0.2.0
 [0.1.8]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.6...v0.1.7
 [0.1.6]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.5...v0.1.6
