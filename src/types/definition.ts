@@ -66,6 +66,26 @@ export type Feature = CredentialDefinition | DataSourceDefinition | ModelDefinit
  * Credential definition
  */
 export interface CredentialDefinition extends BaseDefinition {
+  authenticate: (input: {
+    args: {
+      parameters: {
+        /**
+         * If it is called for the LLM authentication, then this property is the model name.
+         */
+        model?: string
+        [key: string]: unknown
+      }
+      credentials: Record<string, string>
+    }
+  }) => Promise<{
+    /**
+     * What kind of
+     */
+    adapter: "anthropic" | "openai" | "google" | "deepseek"
+    endpoint?: string
+    model: string
+    headers?: Record<string, string>
+  }>
   parameters: Array<PropertyScalar>
 }
 
@@ -252,8 +272,10 @@ export interface ToolDefinition extends BaseDefinition {
    *
    * **Caution for developers**: You must ensure that the return value is JSON serializable.
    */
-  // biome-ignore lint/suspicious/noExplicitAny: Only tools knowns the args type.
-  invoke: (context: { args: any }) => Promise<JsonValue>
+  invoke: (input: {
+    // biome-ignore lint/suspicious/noExplicitAny: Only tools knowns the args type.
+    args: { parameters: Record<string, any>; credentials?: Record<string, string> }
+  }) => Promise<JsonValue>
   /**
    * Parameters
    */

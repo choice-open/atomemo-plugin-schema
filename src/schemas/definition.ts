@@ -12,15 +12,15 @@ import { I18nEntrySchema } from "./common"
 import { PropertiesScalarSchema, PropertiesSchema } from "./property"
 
 /**
- * 基础定义模式
+ * Base Definition Schema
  *
- * 此为所有功能定义模式的基类，定义了通用的属性，不单独使用
+ * This is the base class for all function definition schemas, defining common properties and not used independently
  */
 export const BaseDefinitionSchema = z.object({
-  // 1. 只能出现英文字母（大小写不敏感）和数字以及_和-
-  // 2. 开头只能是英文字母，结尾不能是_和-
-  // 3. _和-不能连续出现多次
-  // 4. 最小长度 4，最大长度 64
+  // 1. Can only contain English letters (case insensitive), numbers, _ and -
+  // 2. Must start with an English letter and cannot end with _ or -
+  // 3. _ and - cannot appear consecutively more than once
+  // 4. Minimum length 4, maximum length 64
   name: z.string().regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_-]){3,63}[a-zA-Z0-9]$/, {
     error:
       "Invalid name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64",
@@ -51,6 +51,26 @@ export const PluginDefinitionSchema = z.object({
 
 export const CredentialDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
+  authenticate: z.function({
+    input: z.tuple([
+      z.object({
+        args: z.object({
+          parameters: z.looseObject({
+            model: z.string().optional(),
+          }),
+          credentials: z.record(z.string(), z.string()),
+        }),
+      }),
+    ]),
+    output: z.promise(
+      z.object({
+        adapter: z.enum(["anthropic", "openai", "google", "deepseek"]),
+        endpoint: z.httpUrl().optional(),
+        model: z.string(),
+        headers: z.record(z.string(), z.string()).optional(),
+      }),
+    ),
+  }),
   parameters: PropertiesScalarSchema,
 })
 {
@@ -150,7 +170,14 @@ export const ModelDefinitionSchema = z.object({
 export const ToolDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
   invoke: z.function({
-    input: z.tuple([z.object({ args: z.any() })]),
+    input: z.tuple([
+      z.object({
+        args: z.object({
+          parameters: z.record(z.string(), z.any()),
+          credentials: z.record(z.string(), z.string()).optional(),
+        }),
+      }),
+    ]),
     output: z.promise(JsonValueSchema),
   }),
   parameters: PropertiesSchema,
