@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-02-09
+
+### Documentation
+
+- Update broken `CHANGELOG.md`
+
 ## [0.2.0] - 2026-02-09
 
 ### Added
@@ -91,16 +97,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- `PropertyScalar<TName>` type union to group scalar property types (string, number, boolean, encrypted_string)
-- `PropertiesScalarSchema` export for scalar properties array validation
+- Added `PropertyScalar<TName>` type union to group scalar property types (string, number, boolean, encrypted_string)
+- Added `PropertiesScalarSchema` export for scalar properties array validation
 
 ### Removed
 
-- `PropertyUIExpressionInputProps` type and `PropertyUIExpressionInputPropsSchema` schema (expression input components are no longer supported)
-- `PropertyUIExpressionInputProps` from `PropertyUIProps` and `PropertyUIString` type unions
-- `PropertyUIDiscriminatorUnionUISchema` schema export
-- `ui` field from `PropertyDiscriminatedUnion` type and `PropertyDiscriminatedUnionSchema` schema (use `discriminator_ui` instead)
-- `settings` field from `BaseDefinition` type and `BaseDefinitionSchema` schema
+- Removed `PropertyUIExpressionInputProps` type and `PropertyUIExpressionInputPropsSchema` schema (expression input components are no longer supported)
+- Removed `PropertyUIExpressionInputProps` from `PropertyUIProps` and `PropertyUIString` type unions
+- Removed `PropertyUIDiscriminatorUnionUISchema` schema export
+- Removed `ui` field from `PropertyDiscriminatedUnion` type and `PropertyDiscriminatedUnionSchema` schema (use `discriminator_ui` instead)
+- Removed `settings` field from `BaseDefinition` type and `BaseDefinitionSchema` schema
 
 ## [0.1.1] - 2026-01-20
 
@@ -112,13 +118,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- CHANGELOG.md following Keep a Changelog format
-- Changelog section links in README and README.zh-CN.md
+- Added CHANGELOG.md following Keep a Changelog format
+- Added Changelog section links in README and README.zh-CN.md
 
-### Fixed
+### Tests
 
-- Tests to reflect `author` and `email` as optional fields
-- Test cases for plugin definitions without optional fields
+- Updated tests to reflect `author` and `email` as optional fields
+- Added test cases for plugin definitions without optional fields
 
 ## [0.1.0] - 2025-01-20
 
@@ -128,16 +134,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TypeScript type definitions for plugin development
 - Zod schema validation for runtime type checking
 - Internationalization support with `I18nText` type and `I18nEntrySchema`
-- Property system with support for various property types
+- Property system with support for:
 - UI component system with various component types for different property types
 - Conditional display system with support for comparison, existence, set operations, regex matching, and logical combination operators
 - Development environment support with direct source file exports for better debugging
 - Comprehensive test suite with 193+ test cases
 - Bilingual documentation (English and Chinese)
-- Comprehensive README with installation, quick start, and API reference
-- Chinese version of README (README.zh-CN.md)
-- Project structure documentation
-- Development guidelines and contributing guide
 
 ### Documentation
 
@@ -146,6 +148,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
+[0.2.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.8...v0.2.0
 [0.1.8]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.7...v0.1.8
 [0.1.7]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.1.6...v0.1.7
