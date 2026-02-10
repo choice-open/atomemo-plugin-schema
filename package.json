@@ -14,14 +14,8 @@
   "author": "江志强 <zhiqiang.jiang@choiceform.com>",
   "type": "module",
   "exports": {
-    "./schemas": {
-      "development": "./src/schemas.ts",
-      "default": "./dist/schemas.mjs"
-    },
-    "./types": {
-      "development": "./src/types.ts",
-      "default": "./dist/types.mjs"
-    },
+    "./schemas": "./dist/schemas.mjs",
+    "./types": "./dist/types.mjs",
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.ts",
