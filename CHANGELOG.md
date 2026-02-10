@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.4] - 2026-02-10
+
+### Changed
+
+- Enhanced `package.json` exports configuration:
+  - Added `development` condition for development mode imports
+  - Updated exports paths to use consistent `./` prefix
+  - Maintained separate development and production export configurations
+- Updated `tsdown.config.ts` to set `devExports` to `true` for development mode support
+
 ## [0.2.3] - 2026-02-10
 
 ### Changed
@@ -165,6 +175,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.3...HEAD
 [0.2.3]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.0...v0.2.1
