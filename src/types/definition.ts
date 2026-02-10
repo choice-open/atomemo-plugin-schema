@@ -68,22 +68,21 @@ export type Feature = CredentialDefinition | DataSourceDefinition | ModelDefinit
 export interface CredentialDefinition extends BaseDefinition {
   authenticate: (input: {
     args: {
-      parameters: {
+      credential: Record<string, string>
+      extra: {
         /**
          * If it is called for the LLM authentication, then this property is the model name.
          */
         model?: string
         [key: string]: unknown
       }
-      credentials: Record<string, string>
     }
   }) => Promise<{
     /**
-     * What kind of
+     * What kind of LLM provider is used.
      */
     adapter: "anthropic" | "openai" | "google" | "deepseek"
     endpoint?: string
-    model: string
     headers?: Record<string, string>
   }>
   parameters: Array<PropertyScalar>
@@ -227,6 +226,10 @@ export interface ModelDefinition extends BaseDefinition {
    * - frequency_penalty
    * - seed
    * - max_tokens
+   * - json_schema
+   * - stream
+   * - stream_options
+   * - structured_outputs
    * - parallel_tool_calls
    * - verbosity
    */
@@ -247,10 +250,10 @@ export interface ModelDefinition extends BaseDefinition {
     // | "top_logprobs"
     // | "response_format"
     // | "json_response"
-    // | "json_schema"
-    // | "stream"
-    // | "stream_options"
-    // | "structured_outputs"
+    | "json_schema"
+    | "stream"
+    | "stream_options"
+    | "structured_outputs"
     // | "stop"
     // | "tools"
     // | "tool_choice"
