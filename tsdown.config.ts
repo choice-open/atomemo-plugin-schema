@@ -4,7 +4,7 @@ export default defineConfig({
   dts: true,
   entry: ["src/schemas.ts", "src/types.ts"],
   exports: {
-    devExports: false,
+    devExports: "development",
   },
   format: "esm",
   sourcemap: true,
