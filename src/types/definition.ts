@@ -227,10 +227,6 @@ export interface ModelDefinition extends BaseDefinition {
    * - frequency_penalty
    * - seed
    * - max_tokens
-   * - json_schema
-   * - stream
-   * - stream_options
-   * - structured_outputs
    * - parallel_tool_calls
    * - verbosity
    */
@@ -251,10 +247,10 @@ export interface ModelDefinition extends BaseDefinition {
     // | "top_logprobs"
     // | "response_format"
     // | "json_response"
-    | "json_schema"
-    | "stream"
-    | "stream_options"
-    | "structured_outputs"
+    // | "json_schema"
+    // | "stream"
+    // | "stream_options"
+    // | "structured_outputs"
     // | "stop"
     // | "tools"
     // | "tool_choice"
