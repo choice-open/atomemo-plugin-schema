@@ -57,7 +57,7 @@ export const CredentialDefinitionSchema = z.object({
         args: z.object({
           credential: z.record(z.string(), z.string()),
           extra: z.looseObject({
-            model: z.string().optional(),
+            model: z.string().nullish(),
           }),
         }),
       }),
@@ -65,8 +65,8 @@ export const CredentialDefinitionSchema = z.object({
     output: z.promise(
       z.object({
         adapter: z.enum(["anthropic", "openai", "google", "deepseek"]),
-        endpoint: z.httpUrl().optional(),
-        headers: z.record(z.string(), z.string()).optional(),
+        endpoint: z.httpUrl().nullish(),
+        headers: z.record(z.string(), z.string()).nullish(),
       }),
     ),
   }),
@@ -90,48 +90,48 @@ export const ModelDefinitionSchema = z.object({
       "Invalid model name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64 5. allow '/' in the middle",
   }),
   model_type: z.literal("llm"),
-  default_endpoint: z.httpUrl().optional(),
+  default_endpoint: z.httpUrl().nullish(),
   input_modalities: z.array(z.enum(["file", "image", "text"])),
   output_modalities: z.array(z.enum(["text"])),
   pricing: z
     .object({
-      currency: z.string().optional(),
-      input: z.number().optional(),
-      input_cache_read: z.number().optional(),
-      input_cache_write: z.number().optional(),
-      output: z.number().optional(),
-      request: z.number().optional(),
+      currency: z.string().nullish(),
+      input: z.number().nullish(),
+      input_cache_read: z.number().nullish(),
+      input_cache_write: z.number().nullish(),
+      output: z.number().nullish(),
+      request: z.number().nullish(),
     })
-    .optional(),
+    .nullish(),
   override_parameters: z
     .object({
       temperature: z
         .object({
-          default: z.number().optional(),
-          maximum: z.number().optional(),
-          minimum: z.number().optional(),
+          default: z.number().nullish(),
+          maximum: z.number().nullish(),
+          minimum: z.number().nullish(),
         })
-        .optional(),
+        .nullish(),
       frequency_penalty: z
         .object({
-          default: z.number().optional(),
-          maximum: z.number().optional(),
-          minimum: z.number().optional(),
+          default: z.number().nullish(),
+          maximum: z.number().nullish(),
+          minimum: z.number().nullish(),
         })
-        .optional(),
+        .nullish(),
       max_tokens: z
         .object({
-          default: z.number().optional(),
-          maximum: z.number().optional(),
+          default: z.number().nullish(),
+          maximum: z.number().nullish(),
         })
-        .optional(),
+        .nullish(),
       verbosity: z
         .object({
-          default: z.enum(["low", "medium", "high"]).optional(),
+          default: z.enum(["low", "medium", "high"]).nullish(),
         })
-        .optional(),
+        .nullish(),
     })
-    .optional(),
+    .nullish(),
   unsupported_parameters: z.array(
     z.enum([
       "endpoint",

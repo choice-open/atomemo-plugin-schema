@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Allowed nullable values in credential and model definitions:
+  - `CredentialDefinition.authenticate` now accepts nullish `extra.model` and returns nullish `endpoint` and `headers`
+  - `ModelDefinition` now accepts nullish `default_endpoint`, `pricing`, and `override_parameters` fields (including nested defaults)
+
 ## [0.2.4] - 2026-02-10
 
 ### Changed

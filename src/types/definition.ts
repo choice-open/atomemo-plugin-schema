@@ -73,7 +73,7 @@ export interface CredentialDefinition extends BaseDefinition {
         /**
          * If it is called for the LLM authentication, then this property is the model name.
          */
-        model?: string
+        model?: string | null
         [key: string]: unknown
       }
     }
@@ -82,8 +82,8 @@ export interface CredentialDefinition extends BaseDefinition {
      * What kind of LLM provider is used.
      */
     adapter: "anthropic" | "openai" | "google" | "deepseek"
-    endpoint?: string
-    headers?: Record<string, string>
+    endpoint?: string | null
+    headers?: Record<string, string> | null
   }>
   parameters: Array<PropertyScalar>
 }
@@ -112,7 +112,7 @@ export interface ModelDefinition extends BaseDefinition {
   /**
    * The default endpoint of the model.
    */
-  default_endpoint?: string
+  default_endpoint?: string | null
   /**
    * Supported input types.
    */
@@ -130,28 +130,28 @@ export interface ModelDefinition extends BaseDefinition {
     /**
      * The currency of the pricing. Defaults to "USD" if not specified.
      */
-    currency?: string
+    currency?: string | null
     /**
      * Cost per input token.
      */
-    input?: number
+    input?: number | null
     /**
      * Input cache read token price.
      */
-    input_cache_read?: number
+    input_cache_read?: number | null
     /**
      * Input cache write token price.
      */
-    input_cache_write?: number
+    input_cache_write?: number | null
     /**
      * Cost per output token.
      */
-    output?: number
+    output?: number | null
     /**
      * Fixed cost per API request if applicable.
      */
-    request?: number
-  }
+    request?: number | null
+  } | null
   /**
    * Override the default parameters of the model.
    */
@@ -163,16 +163,16 @@ export interface ModelDefinition extends BaseDefinition {
       /**
        * @default 1.0
        */
-      default?: number
+      default?: number | null
       /**
        * @default 2.0
        */
-      maximum?: number
+      maximum?: number | null
       /**
        * @default 0.0
        */
-      minimum?: number
-    }
+      minimum?: number | null
+    } | null
     /**
      * This setting aims to control the repetition of tokens based on how often they appear in the input. It tries to use less frequently those tokens that appear more in the input, proportional to how frequently they occur. Token penalty scales with the number of occurrences. Negative values will encourage token reuse.
      */
@@ -180,16 +180,16 @@ export interface ModelDefinition extends BaseDefinition {
       /**
        * @default 0.0
        */
-      default?: number
+      default?: number | null
       /**
        * @default 2.0
        */
-      maximum?: number
+      maximum?: number | null
       /**
        * @default -2.0
        */
-      minimum?: number
-    }
+      minimum?: number | null
+    } | null
     /**
      * This sets the upper limit for the number of tokens the model can generate in response. It won’t produce more than this limit. The maximum value is the context length minus the prompt length.
      */
@@ -197,12 +197,12 @@ export interface ModelDefinition extends BaseDefinition {
       /**
        * @default 1_048_576
        */
-      default?: number
+      default?: number | null
       /**
        * @default 2_000_000
        */
-      maximum?: number
-    }
+      maximum?: number | null
+    } | null
     /**
      * Constrains the verbosity of the model’s response. Lower values produce more concise responses, while higher values produce more detailed and comprehensive responses. Introduced by OpenAI for the Responses API.
      *
@@ -212,9 +212,9 @@ export interface ModelDefinition extends BaseDefinition {
       /**
        * @default "medium"
        */
-      default?: "low" | "medium" | "high"
-    }
-  }
+      default?: "low" | "medium" | "high" | null
+    } | null
+  } | null
   /**
    * Declare which parameters are not supported by the model.
    *
