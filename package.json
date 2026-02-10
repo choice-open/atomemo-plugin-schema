@@ -1,6 +1,6 @@
 {
   "name": "@choiceopen/atomemo-plugin-schema",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Schema for developing Choiceform atomemo plugins",
   "homepage": "https://github.com/choice-open/atomemo-plugin-schema#readme",
   "bugs": {
@@ -14,14 +14,8 @@
   "author": "江志强 <zhiqiang.jiang@choiceform.com>",
   "type": "module",
   "exports": {
-    "./schemas": {
-      "development": "./src/schemas.ts",
-      "default": "./dist/schemas.mjs"
-    },
-    "./types": {
-      "development": "./src/types.ts",
-      "default": "./dist/types.mjs"
-    },
+    "./schemas": "./dist/schemas.mjs",
+    "./types": "./dist/types.mjs",
     "./package.json": "./package.json"
   },
   "types": "./dist/index.d.ts",
