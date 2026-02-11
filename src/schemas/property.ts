@@ -117,7 +117,7 @@ const PropertyBaseSchema = z.object({
   const _: IsEqual<z.infer<typeof PropertyBaseSchema>, PropertyBase<string>> = true
 }
 
-const PropertyStringSchema = PropertyBaseSchema.extend({
+export const PropertyStringSchema = PropertyBaseSchema.extend({
   type: z.literal("string"),
   constant: z.string().nullish(),
   default: z.string().nullish(),
@@ -130,7 +130,7 @@ const PropertyStringSchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyStringSchema>, PropertyString<string>> = true
 }
 
-const PropertyNumberSchema = PropertyBaseSchema.extend({
+export const PropertyNumberSchema = PropertyBaseSchema.extend({
   type: z.union([z.literal("number"), z.literal("integer")]),
   constant: z.number().nullish(),
   default: z.number().nullish(),
@@ -143,7 +143,7 @@ const PropertyNumberSchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyNumberSchema>, PropertyNumber<string>> = true
 }
 
-const PropertyBooleanSchema = PropertyBaseSchema.extend({
+export const PropertyBooleanSchema = PropertyBaseSchema.extend({
   type: z.literal("boolean"),
   constant: z.boolean().nullish(),
   default: z.boolean().nullish(),
@@ -175,7 +175,7 @@ const ArrayPropertiesSchema: z.ZodType<PropertyObject["properties"]> = z.lazy(()
 
 const additionalPropertiesSchema: z.ZodType<Property> = z.lazy(() => PropertySchema)
 
-const PropertyObjectSchema = PropertyBaseSchema.extend({
+export const PropertyObjectSchema = PropertyBaseSchema.extend({
   type: z.literal("object"),
   properties: ArrayPropertiesSchema,
   additional_properties: additionalPropertiesSchema.nullish(),
@@ -198,7 +198,7 @@ const PropertyObjectSchema = PropertyBaseSchema.extend({
   const _: IsEqual<PropertyObjectInferred, PropertyObject> = true
 }
 
-const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
+export const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
   type: z.literal("discriminated_union"),
   get any_of() {
     return z.array(PropertyObjectSchema).min(2, "anyOf must have at least two items")
@@ -254,7 +254,7 @@ const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
   > = true
 }
 
-const PropertyArraySchema = PropertyBaseSchema.extend({
+export const PropertyArraySchema = PropertyBaseSchema.extend({
   type: z.literal("array"),
   constant: z.array(JsonValueSchema).nullish(),
   default: z.array(JsonValueSchema).nullish(),
@@ -270,7 +270,7 @@ const PropertyArraySchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyArraySchema>, PropertyArray> = true
 }
 
-const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
+export const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
   type: z.literal("credential_id"),
   credential_name: z.string().min(1, "credential_name cannot be empty"),
   ui: PropertyUICredentialIdSchema.nullish(),
@@ -279,7 +279,7 @@ const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
 {
   const _: IsEqual<z.infer<typeof PropertyCredentialIdSchema>, PropertyCredentialId<string>> = true
 }
-const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
+export const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
   type: z.literal("encrypted_string"),
   ui: PropertyUIEncryptedStringSchema.nullish(),
 })
