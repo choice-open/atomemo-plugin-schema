@@ -51,25 +51,27 @@ export const PluginDefinitionSchema = z.object({
 
 export const CredentialDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
-  authenticate: z.function({
-    input: z.tuple([
-      z.object({
-        args: z.object({
-          credential: z.record(z.string(), z.string()),
-          extra: z.looseObject({
-            model: z.string().nullish(),
+  authenticate: z
+    .function({
+      input: z.tuple([
+        z.object({
+          args: z.object({
+            credential: z.record(z.string(), z.string()),
+            extra: z.looseObject({
+              model: z.string().nullish(),
+            }),
           }),
         }),
-      }),
-    ]),
-    output: z.promise(
-      z.object({
-        adapter: z.enum(["anthropic", "openai", "google", "deepseek"]),
-        endpoint: z.httpUrl().nullish(),
-        headers: z.record(z.string(), z.string()).nullish(),
-      }),
-    ),
-  }),
+      ]),
+      output: z.promise(
+        z.object({
+          adapter: z.enum(["anthropic", "openai", "google", "deepseek"]),
+          endpoint: z.httpUrl().nullish(),
+          headers: z.record(z.string(), z.string()).nullish(),
+        }),
+      ),
+    })
+    .optional(),
   parameters: PropertiesScalarSchema,
 })
 {
@@ -85,9 +87,9 @@ export type DataSourceDefinition = z.infer<typeof DataSourceDefinitionSchema>
 
 export const ModelDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
-  name: z.string().regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_/-]){3,63}[a-zA-Z0-9]$/, {
+  name: z.string().regex(/^[a-zA-Z](?:(?![_.-]{2,})[a-zA-Z0-9._/-]){3,63}[a-zA-Z0-9]$/, {
     error:
-      "Invalid model name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64 5. allow '/' in the middle",
+      "Invalid model name, should match the following rules: 1. only English letters, numbers, _, - and . 2. start with English letter, end with English letter or number 3. _, - and . cannot appear consecutively more than twice 4. minimum length 4, maximum length 64 5. allow '/' in the middle",
   }),
   model_type: z.literal("llm"),
   default_endpoint: z.httpUrl().nullish(),

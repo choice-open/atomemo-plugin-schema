@@ -66,14 +66,14 @@ export type Feature = CredentialDefinition | DataSourceDefinition | ModelDefinit
  * Credential definition
  */
 export interface CredentialDefinition extends BaseDefinition {
-  authenticate: (input: {
+  authenticate?: (input: {
     args: {
       credential: Record<string, string>
       extra: {
         /**
          * If it is called for the LLM authentication, then this property is the model name.
          */
-        model?: string | null
+        model?: string | null | undefined
         [key: string]: unknown
       }
     }

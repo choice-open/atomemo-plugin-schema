@@ -86,6 +86,11 @@ describe("BaseDefinitionSchema", () => {
       expect(result.success).toBe(false)
     })
 
+    test("should reject name ending with dot", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abcde." })
+      expect(result.success).toBe(false)
+    })
+
     test("should accept name ending with number", () => {
       const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abcde1" })
       expect(result.success).toBe(true)
@@ -108,8 +113,23 @@ describe("BaseDefinitionSchema", () => {
       expect(result.success).toBe(false)
     })
 
+    test("should reject name with consecutive dots", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc..def" })
+      expect(result.success).toBe(false)
+    })
+
     test("should reject name with mixed consecutive special chars", () => {
       const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc-_def" })
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with dot and hyphen consecutive", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc.-def" })
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with underscore and dot consecutive", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc_.def" })
       expect(result.success).toBe(false)
     })
 
@@ -123,9 +143,19 @@ describe("BaseDefinitionSchema", () => {
       expect(result.success).toBe(true)
     })
 
+    test("should reject name with dot", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc.def" })
+      expect(result.success).toBe(false)
+    })
+
     test("should accept name with alternating special chars", () => {
       const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "a-b_c-d" })
       expect(result.success).toBe(true)
+    })
+
+    test("should reject name with dot and other special chars", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "a.b-c_d" })
+      expect(result.success).toBe(false)
     })
   })
 
@@ -140,8 +170,18 @@ describe("BaseDefinitionSchema", () => {
       expect(result.success).toBe(false)
     })
 
-    test("should reject name with dot", () => {
-      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc.def" })
+    test("should reject name with @ symbol", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc@def" })
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with # symbol", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc#def" })
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with $ symbol", () => {
+      const result = BaseDefinitionSchema.safeParse({ ...validBase, name: "abc$def" })
       expect(result.success).toBe(false)
     })
   })
@@ -155,6 +195,7 @@ describe("PluginDefinitionSchema", () => {
     icon: "🔌",
     email: "test@example.com",
     locales: ["en_US"],
+    lang: "typescript" as const,
   }
 
   describe("email validation", () => {
@@ -247,10 +288,21 @@ describe("CredentialDefinitionSchema", () => {
     description: validI18n,
     icon: "🔑",
     parameters: [],
+    authenticate: async () => ({
+      adapter: "openai" as const,
+      endpoint: "https://api.example.com",
+      headers: {},
+    }),
   }
 
   test("should accept valid credential", () => {
     const result = CredentialDefinitionSchema.safeParse(validCredential)
+    expect(result.success).toBe(true)
+  })
+
+  test("should accept credential without authenticate (optional)", () => {
+    const { authenticate: _, ...withoutAuthenticate } = validCredential
+    const result = CredentialDefinitionSchema.safeParse(withoutAuthenticate)
     expect(result.success).toBe(true)
   })
 
