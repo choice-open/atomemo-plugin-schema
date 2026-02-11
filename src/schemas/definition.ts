@@ -87,9 +87,9 @@ export type DataSourceDefinition = z.infer<typeof DataSourceDefinitionSchema>
 
 export const ModelDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
-  name: z.string().regex(/^[a-zA-Z](?:(?![_.-]{2,})[a-zA-Z0-9._/-]){3,63}[a-zA-Z0-9]$/, {
+  name: z.string().regex(/^[a-zA-Z](?:(?![_.-]{2,})[a-zA-Z0-9._/-])*[a-zA-Z0-9]$/, {
     error:
-      "Invalid model name, should match the following rules: 1. only English letters, numbers, _, - and . 2. start with English letter, end with English letter or number 3. _, - and . cannot appear consecutively more than twice 4. minimum length 4, maximum length 64 5. allow '/' in the middle",
+      "Invalid model name, should match the following rules: 1. only English letters, numbers, _, - and . 2. start with English letter, end with English letter or number 3. _, - and . cannot appear consecutively more than twice 4. allow '/' in the middle",
   }),
   model_type: z.literal("llm"),
   default_endpoint: z.httpUrl().nullish(),

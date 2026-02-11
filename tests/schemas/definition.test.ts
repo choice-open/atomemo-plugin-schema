@@ -391,6 +391,24 @@ describe("ModelDefinitionSchema", () => {
       const result = ModelDefinitionSchema.safeParse({ ...validModel, name: "provider/model-" })
       expect(result.success).toBe(false)
     })
+
+    test("should accept very short name with 2 characters", () => {
+      const result = ModelDefinitionSchema.safeParse({ ...validModel, name: "ab" })
+      expect(result.success).toBe(true)
+    })
+
+    test("should accept very long name with 100+ characters", () => {
+      const result = ModelDefinitionSchema.safeParse({
+        ...validModel,
+        name: `provider/model-name-${"x".repeat(100)}`,
+      })
+      expect(result.success).toBe(true)
+    })
+
+    test("should accept minimum 2 character name", () => {
+      const result = ModelDefinitionSchema.safeParse({ ...validModel, name: "ab" })
+      expect(result.success).toBe(true)
+    })
   })
 
   describe("modality validation", () => {
