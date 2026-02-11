@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.7] - 2026-02-11
+
+### Changed
+
+- Enhanced `CredentialDefinition` schema to make `authenticate` method optional
+- Improved model name validation rule in `ModelDefinitionSchema`
+- Updated `@types/bun` to version 1.3.9
+
 ## [0.2.6] - 2026-02-11
 
 ### Added
@@ -197,7 +205,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.6...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.7...HEAD
+[0.2.7]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.6...v0.2.7
 [0.2.6]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.5...v0.2.6
 [0.2.5]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.4...v0.2.5
 [0.2.4]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.3...v0.2.4
