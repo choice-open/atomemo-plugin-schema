@@ -201,7 +201,10 @@ export const PropertyObjectSchema = PropertyBaseSchema.extend({
 export const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
   type: z.literal("discriminated_union"),
   get any_of() {
-    return z.array(PropertyObjectSchema).min(2, "anyOf must have at least two items")
+    return z
+      .array(PropertyObjectSchema)
+      .refine(checkDuplicateNames.checkFn, checkDuplicateNames.customError)
+      .min(2, "anyOf must have at least two items")
   },
   discriminator: z.string().min(1, "discriminator cannot be empty"),
   discriminator_ui: PropertyUIDiscriminatorUISchema.nullish(),
