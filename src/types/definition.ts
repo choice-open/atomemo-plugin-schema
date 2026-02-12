@@ -68,12 +68,12 @@ export type Feature = CredentialDefinition | DataSourceDefinition | ModelDefinit
 export interface CredentialDefinition extends BaseDefinition {
   authenticate?: (input: {
     args: {
-      credential: Record<string, unknown>
+      credential: Record<string, string | null | undefined>
       extra: {
         /**
          * If it is called for the LLM authentication, then this property is the model name.
          */
-        model?: string | null | undefined
+        model?: string | undefined
         [key: string]: unknown
       }
     }
@@ -82,8 +82,14 @@ export interface CredentialDefinition extends BaseDefinition {
      * What kind of LLM provider is used.
      */
     adapter: "anthropic" | "openai" | "google" | "deepseek"
-    endpoint?: string | null
-    headers?: Record<string, string> | null
+    api_key: string
+    endpoint?: string
+    model?: string
+    /**
+     * The headers to be sent with the request.
+     */
+    headers?: Record<string, string>
+    [key: string]: unknown
   }>
   parameters: Array<PropertyScalar>
 }

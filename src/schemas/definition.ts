@@ -56,18 +56,20 @@ export const CredentialDefinitionSchema = z.object({
       input: z.tuple([
         z.object({
           args: z.object({
-            credential: z.record(z.string(), z.unknown()),
+            credential: z.record(z.string(), z.string().nullish()),
             extra: z.looseObject({
-              model: z.string().nullish(),
+              model: z.string().optional(),
             }),
           }),
         }),
       ]),
       output: z.promise(
-        z.object({
+        z.looseObject({
           adapter: z.enum(["anthropic", "openai", "google", "deepseek"]),
-          endpoint: z.httpUrl().nullish(),
-          headers: z.record(z.string(), z.string()).nullish(),
+          api_key: z.string(),
+          endpoint: z.httpUrl().optional(),
+          model: z.string().optional(),
+          headers: z.record(z.string(), z.string()).optional(),
         }),
       ),
     })
