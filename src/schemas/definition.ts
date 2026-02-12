@@ -56,7 +56,7 @@ export const CredentialDefinitionSchema = z.object({
       input: z.tuple([
         z.object({
           args: z.object({
-            credential: z.record(z.string(), z.string()),
+            credential: z.record(z.string(), z.unknown()),
             extra: z.looseObject({
               model: z.string().nullish(),
             }),
