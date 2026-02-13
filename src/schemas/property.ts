@@ -173,7 +173,7 @@ const ArrayPropertiesSchema: z.ZodType<PropertyObject["properties"]> = z.lazy(()
 )
 
 const additionalPropertiesSchema: z.ZodType<Property | PropertyDiscriminatedUnion<string>> = z.lazy(
-  () => PropertySchema,
+  () => z.union([PropertySchema, PropertyDiscriminatedUnionSchema]),
 )
 
 export const PropertyObjectSchema = PropertyBaseSchema.extend({

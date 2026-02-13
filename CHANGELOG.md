@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.14] - 2026-02-14
+
+### Fixed
+
+- `PropertyObject.additional_properties` schema now accepts `PropertyDiscriminatedUnion` at runtime (previously only the type allowed it; validation now matches)
+
 ## [0.2.13] - 2026-02-14
 
 ### Changed
@@ -251,7 +257,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.13...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.14...HEAD
+[0.2.14]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.13...v0.2.14
 [0.2.13]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.12...v0.2.13
 [0.2.12]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.11...v0.2.12
 [0.2.11]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.10...v0.2.11
