@@ -254,14 +254,11 @@ export interface PropertyObject<
    * Supports dynamic keys with values conforming to the specified property schema.
    * Semantics similar to JSON Schema's additionalProperties: https://json-schema.org/draft/2019-09/draft-handrews-json-schema-02#additionalProperties
    */
-  additional_properties?: Property | null
+  additional_properties?: Property | PropertyDiscriminatedUnion<string> | null
   ui?: PropertyUIObject | null
 }
 
-export interface PropertyDiscriminatedUnion<
-  TName extends string = string,
-  TDiscriminator extends string = string,
-> extends PropertyBase<TName> {
+export interface PropertyDiscriminatedUnion<TDiscriminator extends string = string> {
   type: "discriminated_union"
   /**
    * Possible object types in the array.
@@ -289,7 +286,7 @@ export interface PropertyArray<TName extends string = string> extends PropertyBa
   /**
    * Item schema for array elements
    */
-  items: Property
+  items: Property | PropertyDiscriminatedUnion<string>
   /**
    * Maximum array size (inclusive)
    */
@@ -310,12 +307,18 @@ export interface PropertyCredentialId<TName extends string = string> extends Pro
    */
   credential_name: string
   ui?: PropertyUICredentialId | null // the ui component for selecting the credential
+  constant?: null
+  default?: null
+  enum?: null
 }
 
 export interface PropertyEncryptedString<TName extends string = string>
   extends PropertyBase<TName> {
   type: "encrypted_string"
   ui?: PropertyUIEncryptedString | null
+  constant?: null
+  default?: null
+  enum?: null
 }
 
 export type PropertyScalar<TName extends string = string> =
@@ -329,4 +332,3 @@ export type Property<TName extends string = string, TValue extends JsonValue = J
   | PropertyCredentialId<TName>
   | PropertyArray<TName>
   | PropertyObject<TName, string, TValue extends JsonObject ? TValue : JsonObject>
-  | PropertyDiscriminatedUnion<TName, string>

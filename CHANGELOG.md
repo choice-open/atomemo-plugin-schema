@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.13] - 2026-02-14
+
+### Changed
+
+- **PropertyDiscriminatedUnion** is no longer a top-level property type: it can only be used as `PropertyObject.additional_properties` or `PropertyArray.items`
+- Simplified `PropertyDiscriminatedUnion` type: removed `TName` generic and no longer extends `PropertyBase` (no `name`, `display_name`, etc.)
+- `PropertyObject.additional_properties` and `PropertyArray.items` now accept `Property | PropertyDiscriminatedUnion<string>`
+- `PropertyCredentialId` and `PropertyEncryptedString` now explicitly allow optional `constant`, `default`, and `enum` as `null` for consistency with other property types
+
 ## [0.2.12] - 2026-02-13
 
 ### Changed
@@ -242,7 +251,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.12...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.13...HEAD
+[0.2.13]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.12...v0.2.13
 [0.2.12]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.11...v0.2.12
 [0.2.11]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.10...v0.2.11
 [0.2.10]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.9...v0.2.10

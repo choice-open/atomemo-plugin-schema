@@ -97,7 +97,6 @@ const PropertyBaseSchema = z.object({
         abort: true,
       },
     ),
-
   display_name: I18nEntrySchema.nullish(),
   required: z.boolean().nullish(),
   display: z
@@ -173,7 +172,9 @@ const ArrayPropertiesSchema: z.ZodType<PropertyObject["properties"]> = z.lazy(()
   z.array(PropertySchema).refine(checkDuplicateNames.checkFn, checkDuplicateNames.customError),
 )
 
-const additionalPropertiesSchema: z.ZodType<Property> = z.lazy(() => PropertySchema)
+const additionalPropertiesSchema: z.ZodType<Property | PropertyDiscriminatedUnion<string>> = z.lazy(
+  () => PropertySchema,
+)
 
 export const PropertyObjectSchema = PropertyBaseSchema.extend({
   type: z.literal("object"),
@@ -198,17 +199,18 @@ export const PropertyObjectSchema = PropertyBaseSchema.extend({
   const _: IsEqual<PropertyObjectInferred, PropertyObject> = true
 }
 
-export const PropertyDiscriminatedUnionSchema = PropertyBaseSchema.extend({
-  type: z.literal("discriminated_union"),
-  get any_of() {
-    return z
-      .array(PropertyObjectSchema)
-      .refine(checkDuplicateNames.checkFn, checkDuplicateNames.customError)
-      .min(2, "anyOf must have at least two items")
-  },
-  discriminator: z.string().min(1, "discriminator cannot be empty"),
-  discriminator_ui: PropertyUIDiscriminatorUISchema.nullish(),
-})
+export const PropertyDiscriminatedUnionSchema = z
+  .object({
+    type: z.literal("discriminated_union"),
+    get any_of() {
+      return z
+        .array(PropertyObjectSchema)
+        .refine(checkDuplicateNames.checkFn, checkDuplicateNames.customError)
+        .min(2, "anyOf must have at least two items")
+    },
+    discriminator: z.string().min(1, "discriminator cannot be empty"),
+    discriminator_ui: PropertyUIDiscriminatorUISchema.nullish(),
+  })
   .refine(
     (v) => {
       const { any_of, discriminator } = v
@@ -263,7 +265,7 @@ export const PropertyArraySchema = PropertyBaseSchema.extend({
   default: z.array(JsonValueSchema).nullish(),
   enum: z.array(z.array(JsonValueSchema)).nullish(),
   get items() {
-    return PropertySchema
+    return z.union([PropertySchema, PropertyDiscriminatedUnionSchema])
   },
   max_items: z.number().nullish(),
   min_items: z.number().nullish(),
@@ -277,6 +279,9 @@ export const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
   type: z.literal("credential_id"),
   credential_name: z.string().min(1, "credential_name cannot be empty"),
   ui: PropertyUICredentialIdSchema.nullish(),
+  constant: z.null().optional(),
+  default: z.null().optional(),
+  enum: z.null().optional(),
 })
 
 {
@@ -285,6 +290,9 @@ export const PropertyCredentialIdSchema = PropertyBaseSchema.extend({
 export const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
   type: z.literal("encrypted_string"),
   ui: PropertyUIEncryptedStringSchema.nullish(),
+  constant: z.null().optional(),
+  default: z.null().optional(),
+  enum: z.null().optional(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyEncryptedStringSchema>, PropertyEncryptedString> = true
@@ -311,7 +319,6 @@ const PropertySchema = z.union([
   PropertyCredentialIdSchema,
   PropertyArraySchema,
   PropertyObjectSchema,
-  PropertyDiscriminatedUnionSchema,
 ])
 {
   const _: IsEqual<z.infer<typeof PropertySchema>, Property> = true

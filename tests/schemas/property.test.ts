@@ -1,5 +1,8 @@
 import { describe, expect, test } from "bun:test"
-import { PropertiesSchema } from "../../src/schemas/property"
+import {
+  PropertiesSchema,
+  PropertyDiscriminatedUnionSchema,
+} from "../../src/schemas/property"
 
 const validI18n = { en_US: "Test" }
 
@@ -246,7 +249,6 @@ describe("PropertyObjectSchema", () => {
 
 describe("PropertyDiscriminatedUnionSchema", () => {
   const createDiscriminatedUnion = (overrides: Record<string, unknown> = {}) => ({
-    name: "union",
     type: "discriminated_union" as const,
     discriminator: "type",
     any_of: [
@@ -266,7 +268,7 @@ describe("PropertyDiscriminatedUnionSchema", () => {
 
   describe("any_of minimum items", () => {
     test("should reject any_of with less than 2 items", () => {
-      const result = PropertiesSchema.safeParse([
+      const result = PropertyDiscriminatedUnionSchema.safeParse(
         createDiscriminatedUnion({
           any_of: [
             {
@@ -276,19 +278,21 @@ describe("PropertyDiscriminatedUnionSchema", () => {
             },
           ],
         }),
-      ])
+      )
       expect(result.success).toBe(false)
     })
 
     test("should accept any_of with exactly 2 items", () => {
-      const result = PropertiesSchema.safeParse([createDiscriminatedUnion()])
+      const result = PropertyDiscriminatedUnionSchema.safeParse(
+        createDiscriminatedUnion(),
+      )
       expect(result.success).toBe(true)
     })
   })
 
   describe("discriminator value uniqueness", () => {
     test("should reject duplicate discriminator values", () => {
-      const result = PropertiesSchema.safeParse([
+      const result = PropertyDiscriminatedUnionSchema.safeParse(
         createDiscriminatedUnion({
           any_of: [
             {
@@ -303,9 +307,14 @@ describe("PropertyDiscriminatedUnionSchema", () => {
             },
           ],
         }),
-      ])
+      )
       expect(result.success).toBe(false)
     })
+  })
+
+  test("discriminated union is not a top-level property in PropertiesSchema", () => {
+    const result = PropertiesSchema.safeParse([createDiscriminatedUnion()])
+    expect(result.success).toBe(false)
   })
 })
 
