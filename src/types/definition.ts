@@ -81,7 +81,7 @@ export interface CredentialDefinition extends BaseDefinition {
     /**
      * What kind of LLM provider is used.
      */
-    adapter: "anthropic" | "openai" | "google" | "deepseek"
+    adapter: "anthropic" | "openai" | "google_ai" | "deepseek"
     api_key: string
     endpoint?: string
     model?: string

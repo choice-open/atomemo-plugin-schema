@@ -65,7 +65,7 @@ export const CredentialDefinitionSchema = z.object({
       ]),
       output: z.promise(
         z.looseObject({
-          adapter: z.enum(["anthropic", "openai", "google", "deepseek"]),
+          adapter: z.enum(["anthropic", "openai", "google_ai", "deepseek"]),
           api_key: z.string(),
           endpoint: z.httpUrl().optional(),
           model: z.string().optional(),
