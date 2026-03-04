@@ -279,7 +279,7 @@ export interface ToolDefinition extends BaseDefinition {
    */
   invoke: (input: {
     // biome-ignore lint/suspicious/noExplicitAny: Only tools knowns the args type.
-    args: { parameters: Record<string, any>; credentials?: Record<string, any> }
+    args: { parameters: Record<string, any>; credentials?: Record<string, Record<string, any>> }
   }) => Promise<JsonValue>
   /**
    * Parameters

@@ -177,7 +177,7 @@ export const ToolDefinitionSchema = z.object({
       z.object({
         args: z.object({
           parameters: z.record(z.string(), z.any()),
-          credentials: z.record(z.string(), z.any()).optional(),
+          credentials: z.record(z.string(), z.record(z.string(), z.any())).optional(),
         }),
       }),
     ]),
@@ -188,3 +188,4 @@ export const ToolDefinitionSchema = z.object({
 {
   const _: IsEqual<z.infer<typeof ToolDefinitionSchema>, ToolDefinition> = true
 }
+

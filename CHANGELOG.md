@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.16] - 2026-03-04
+
+### Changed
+
+- Updated `ToolDefinition.invoke` credentials type from `Record<string, any>` to `Record<string, Record<string, any>>` to reflect that each credential is a map of key-value pairs
+
 ## [0.2.15] - 2026-02-14
 
 ### Changed
@@ -263,7 +269,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.15...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.16...HEAD
+[0.2.16]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.15...v0.2.16
 [0.2.15]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.14...v0.2.15
 [0.2.14]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.13...v0.2.14
 [0.2.13]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.12...v0.2.13
