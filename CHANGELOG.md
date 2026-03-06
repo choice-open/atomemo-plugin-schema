@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-03-06
+
+### Added
+
+- Added `context` parameter to `ToolDefinition.invoke` and `CredentialDefinition.authenticate` input for passing runtime context
+
+### Changed
+
+- Made `CredentialDefinition.authenticate` input `args.extra` field optional
+- Updated dependencies:
+  - `@biomejs/biome`: ^2.3.14 → ^2.4.6
+  - `@types/bun`: ^1.3.9 → ^1.3.10
+
 ## [0.2.18] - 2026-03-10
 
 ### Added
@@ -281,7 +294,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.18...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.18...v0.3.0
 [0.2.18]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.17...v0.2.18
 [0.2.17]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.16...v0.2.17
 [0.2.16]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.15...v0.2.16
