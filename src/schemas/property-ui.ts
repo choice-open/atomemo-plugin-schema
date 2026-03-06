@@ -127,7 +127,7 @@ const PropertyUINumberInputPropsSchema = PropertyUICommonPropsSchema.extend({
 // Code editor component schema
 const PropertyUICodeEditorPropsSchema = PropertyUICommonPropsSchema.extend({
   component: z.literal("code-editor"),
-  language: z.enum(["json", "javascript", "python3"]).optional(),
+  language: z.enum(["json", "javascript", "python3", "markdown"]).optional(),
   line_numbers: z.boolean().optional(),
   line_wrapping: z.boolean().optional(),
   max_height: z.number().optional(),

@@ -90,7 +90,7 @@ interface PropertyUINumberInputProps extends PropertyUICommonProps {
 /** 代码编辑器 UI 属性 */
 interface PropertyUICodeEditorProps extends PropertyUICommonProps {
   component: "code-editor"
-  language?: "json" | "javascript" | "python3"
+  language?: "json" | "javascript" | "python3" | "markdown"
   /**
    * Show line numbers in the code editor.
    * @default false
