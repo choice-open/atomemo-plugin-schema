@@ -57,10 +57,13 @@ export const CredentialDefinitionSchema = z.object({
         z.object({
           args: z.object({
             credential: z.record(z.string(), z.string().nullish()),
-            extra: z.looseObject({
-              model: z.string().optional(),
-            }),
+            extra: z
+              .looseObject({
+                model: z.string().optional(),
+              })
+              .optional(),
           }),
+          context: z.looseRecord(z.string(), z.unknown()),
         }),
       ]),
       output: z.promise(
@@ -179,6 +182,7 @@ export const ToolDefinitionSchema = z.object({
           parameters: z.record(z.string(), z.any()),
           credentials: z.record(z.string(), z.record(z.string(), z.any())).optional(),
         }),
+        context: z.looseRecord(z.string(), z.unknown()),
       }),
     ]),
     output: z.promise(JsonValueSchema),
@@ -188,4 +192,3 @@ export const ToolDefinitionSchema = z.object({
 {
   const _: IsEqual<z.infer<typeof ToolDefinitionSchema>, ToolDefinition> = true
 }
-

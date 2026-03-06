@@ -69,7 +69,7 @@ export interface CredentialDefinition extends BaseDefinition {
   authenticate?: (input: {
     args: {
       credential: Record<string, string | null | undefined>
-      extra: {
+      extra?: {
         /**
          * If it is called for the LLM authentication, then this property is the model name.
          */
@@ -77,6 +77,7 @@ export interface CredentialDefinition extends BaseDefinition {
         [key: string]: unknown
       }
     }
+    context: Record<string, unknown>
   }) => Promise<{
     /**
      * What kind of LLM provider is used.
@@ -280,6 +281,7 @@ export interface ToolDefinition extends BaseDefinition {
   invoke: (input: {
     // biome-ignore lint/suspicious/noExplicitAny: Only tools knowns the args type.
     args: { parameters: Record<string, any>; credentials?: Record<string, Record<string, any>> }
+    context: Record<string, unknown>
   }) => Promise<JsonValue>
   /**
    * Parameters
