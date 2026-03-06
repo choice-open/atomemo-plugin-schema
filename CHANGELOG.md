@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.17] - 2026-03-06
+
+### Added
+
+- Added `markdown` as a valid language option for the code editor component schema
+
 ## [0.2.16] - 2026-03-04
 
 ### Changed
