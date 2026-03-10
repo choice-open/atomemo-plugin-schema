@@ -77,7 +77,8 @@ export interface CredentialDefinition extends BaseDefinition {
         [key: string]: unknown
       }
     }
-    context: Record<string, unknown>
+    // biome-ignore lint/suspicious/noExplicitAny: any context is allowed
+    context: Record<string, any>
   }) => Promise<{
     /**
      * What kind of LLM provider is used.

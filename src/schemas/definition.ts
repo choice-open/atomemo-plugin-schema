@@ -63,7 +63,7 @@ export const CredentialDefinitionSchema = z.object({
               })
               .optional(),
           }),
-          context: z.looseRecord(z.string(), z.unknown()),
+          context: z.looseRecord(z.string(), z.any()),
         }),
       ]),
       output: z.promise(
