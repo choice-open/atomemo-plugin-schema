@@ -182,7 +182,7 @@ export const ToolDefinitionSchema = z.object({
           parameters: z.record(z.string(), z.any()),
           credentials: z.record(z.string(), z.record(z.string(), z.any())).optional(),
         }),
-        context: z.looseRecord(z.string(), z.unknown()),
+        context: z.looseRecord(z.string(), z.any()),
       }),
     ]),
     output: z.promise(JsonValueSchema),
