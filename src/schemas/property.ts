@@ -10,6 +10,7 @@ import type {
   PropertyCredentialId,
   PropertyDiscriminatedUnion,
   PropertyEncryptedString,
+  PropertyFileReference,
   PropertyNumber,
   PropertyObject,
   PropertyScalar,
@@ -298,6 +299,13 @@ export const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyEncryptedStringSchema>, PropertyEncryptedString> = true
 }
 
+export const PropertyFileReferenceSchema = PropertyBaseSchema.extend({
+  type: z.literal("file_ref"),
+})
+{
+  const _: IsEqual<z.infer<typeof PropertyFileReferenceSchema>, PropertyFileReference> = true
+}
+
 const PropertyScalarSchema = z.union([
   PropertyStringSchema,
   PropertyBooleanSchema,
@@ -319,6 +327,7 @@ const PropertySchema = z.union([
   PropertyCredentialIdSchema,
   PropertyArraySchema,
   PropertyObjectSchema,
+  PropertyFileReferenceSchema,
 ])
 {
   const _: IsEqual<z.infer<typeof PropertySchema>, Property> = true

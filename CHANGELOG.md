@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `file_ref` property type (`PropertyFileReference`) and schema (`PropertyFileReferenceSchema`) for file reference properties
+
 ## [0.2.17] - 2026-03-06
 
 ### Added
@@ -275,7 +279,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.16...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.17...HEAD
+[0.2.17]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.16...v0.2.17
 [0.2.16]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.15...v0.2.16
 [0.2.15]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.14...v0.2.15
 [0.2.14]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.13...v0.2.14

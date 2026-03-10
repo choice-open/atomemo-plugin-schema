@@ -321,6 +321,10 @@ export interface PropertyEncryptedString<TName extends string = string>
   enum?: null
 }
 
+export interface PropertyFileReference<TName extends string = string> extends PropertyBase<TName> {
+  type: "file_ref"
+}
+
 export type PropertyScalar<TName extends string = string> =
   | PropertyString<TName>
   | PropertyBoolean<TName>
@@ -332,3 +336,4 @@ export type Property<TName extends string = string, TValue extends JsonValue = J
   | PropertyCredentialId<TName>
   | PropertyArray<TName>
   | PropertyObject<TName, string, TValue extends JsonObject ? TValue : JsonObject>
+  | PropertyFileReference<TName>
