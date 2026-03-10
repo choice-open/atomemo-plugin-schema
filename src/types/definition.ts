@@ -1,5 +1,5 @@
 import type { JsonValue } from "../utils/custom-json-value"
-import type { I18nText } from "./common"
+import type { I18nText, PluginContext } from "./common"
 import type { Property, PropertyScalar } from "./property"
 
 export interface BaseDefinition {
@@ -77,8 +77,7 @@ export interface CredentialDefinition extends BaseDefinition {
         [key: string]: unknown
       }
     }
-    // biome-ignore lint/suspicious/noExplicitAny: any context is allowed
-    context: Record<string, any>
+    context: PluginContext
   }) => Promise<{
     /**
      * What kind of LLM provider is used.
@@ -282,8 +281,7 @@ export interface ToolDefinition extends BaseDefinition {
   invoke: (input: {
     // biome-ignore lint/suspicious/noExplicitAny: Only tools knowns the args type.
     args: { parameters: Record<string, any>; credentials?: Record<string, Record<string, any>> }
-    // biome-ignore lint/suspicious/noExplicitAny: any context is allowed
-    context: Record<string, any>
+    context: PluginContext
   }) => Promise<JsonValue>
   /**
    * Parameters

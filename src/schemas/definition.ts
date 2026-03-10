@@ -8,7 +8,7 @@ import type {
   ToolDefinition,
 } from "../types"
 import { JsonValueSchema } from "../utils/custom-json-value"
-import { I18nEntrySchema } from "./common"
+import { I18nEntrySchema, PluginContextSchema } from "./common"
 import { PropertiesScalarSchema, PropertiesSchema } from "./property"
 
 /**
@@ -49,34 +49,34 @@ export const PluginDefinitionSchema = z.object({
   > = true
 }
 
+const CredentialAuthenticateSchema = z.function({
+  input: z.tuple([
+    z.object({
+      args: z.object({
+        credential: z.record(z.string(), z.string().nullish()),
+        extra: z
+          .looseObject({
+            model: z.string().optional(),
+          })
+          .optional(),
+      }),
+      context: PluginContextSchema,
+    }),
+  ]),
+  output: z.promise(
+    z.looseObject({
+      adapter: z.enum(["anthropic", "openai", "google_ai", "deepseek"]),
+      api_key: z.string(),
+      endpoint: z.httpUrl().optional(),
+      model: z.string().optional(),
+      headers: z.record(z.string(), z.string()).optional(),
+    }),
+  ),
+})
+
 export const CredentialDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
-  authenticate: z
-    .function({
-      input: z.tuple([
-        z.object({
-          args: z.object({
-            credential: z.record(z.string(), z.string().nullish()),
-            extra: z
-              .looseObject({
-                model: z.string().optional(),
-              })
-              .optional(),
-          }),
-          context: z.looseRecord(z.string(), z.any()),
-        }),
-      ]),
-      output: z.promise(
-        z.looseObject({
-          adapter: z.enum(["anthropic", "openai", "google_ai", "deepseek"]),
-          api_key: z.string(),
-          endpoint: z.httpUrl().optional(),
-          model: z.string().optional(),
-          headers: z.record(z.string(), z.string()).optional(),
-        }),
-      ),
-    })
-    .optional(),
+  authenticate: CredentialAuthenticateSchema.optional(),
   parameters: PropertiesScalarSchema,
 })
 {
@@ -173,20 +173,22 @@ export const ModelDefinitionSchema = z.object({
   const _: IsEqual<z.infer<typeof ModelDefinitionSchema>, ModelDefinition> = true
 }
 
+const ToolInvokeFunctionSchema = z.function({
+  input: z.tuple([
+    z.object({
+      args: z.object({
+        parameters: z.record(z.string(), z.any()),
+        credentials: z.record(z.string(), z.record(z.string(), z.any())).optional(),
+      }),
+      context: PluginContextSchema,
+    }),
+  ]),
+  output: z.promise(JsonValueSchema),
+})
+
 export const ToolDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
-  invoke: z.function({
-    input: z.tuple([
-      z.object({
-        args: z.object({
-          parameters: z.record(z.string(), z.any()),
-          credentials: z.record(z.string(), z.record(z.string(), z.any())).optional(),
-        }),
-        context: z.looseRecord(z.string(), z.any()),
-      }),
-    ]),
-    output: z.promise(JsonValueSchema),
-  }),
+  invoke: ToolInvokeFunctionSchema,
   parameters: PropertiesSchema,
 })
 {

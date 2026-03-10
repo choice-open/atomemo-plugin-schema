@@ -31,3 +31,48 @@ export const I18nEntrySchema = z.custom<I18nText>((value) => {
 {
   const _: IsEqual<z.infer<typeof I18nEntrySchema>, I18nText> = true
 }
+
+export const FileRefSchema = z.object({
+  __type__: z.literal("file_ref"),
+  source: z.enum(["mem", "oss"]),
+  filename: z.string().nullish(),
+  extension: z.string().nullish(),
+  mime_type: z.string().nullish(),
+  size: z.number().nullish(),
+  res_key: z.string().nullish(),
+  remote_url: z.string().nullish(),
+  content: z.base64().nullish(),
+})
+
+const _PluginContextSchema = z.object({
+  files: z.object({
+    attachRemoteUrl: z.function({
+      input: z.tuple([FileRefSchema]),
+      output: z.promise(
+        FileRefSchema.extend({
+          remote_url: z.string(),
+        }),
+      ),
+    }),
+    download: z.function({
+      input: z.tuple([FileRefSchema]),
+      output: z.promise(FileRefSchema),
+    }),
+    upload: z.function({
+      input: z.tuple([FileRefSchema, z.looseObject({ prefixKey: z.string().nullish() })]),
+      output: z.promise(FileRefSchema),
+    }),
+    parseFileRef: z.function({
+      input: z.tuple([z.unknown()]),
+      output: FileRefSchema,
+    }),
+  }),
+})
+
+// 这里不能直接导出 `_PluginContextSchema`：它内部包含 `z.function()`，直接参与其它
+// `z.function()` 的参数推断时会暴露 inner input 类型，导致 `z.infer` 出来的
+// `PluginContext` 与函数参数位类型不完全相等。用 `z.custom` 包一层可以保留相同运行时校验，
+// 同时把静态类型固定为 `z.infer<typeof _PluginContextSchema>`。
+export const PluginContextSchema = z.custom<z.infer<typeof _PluginContextSchema>>(
+  (value) => _PluginContextSchema.safeParse(value).success,
+)

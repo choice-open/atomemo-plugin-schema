@@ -1,8 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import {
-  PropertiesSchema,
-  PropertyDiscriminatedUnionSchema,
-} from "../../src/schemas/property"
+import { PropertiesSchema, PropertyDiscriminatedUnionSchema } from "../../src/schemas/property"
 
 const validI18n = { en_US: "Test" }
 
@@ -283,9 +280,7 @@ describe("PropertyDiscriminatedUnionSchema", () => {
     })
 
     test("should accept any_of with exactly 2 items", () => {
-      const result = PropertyDiscriminatedUnionSchema.safeParse(
-        createDiscriminatedUnion(),
-      )
+      const result = PropertyDiscriminatedUnionSchema.safeParse(createDiscriminatedUnion())
       expect(result.success).toBe(true)
     })
   })
