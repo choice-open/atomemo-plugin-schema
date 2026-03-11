@@ -75,7 +75,7 @@ export interface CredentialDefinition extends BaseDefinition {
          */
         model?: string | undefined
         [key: string]: unknown
-      }
+      } | undefined
     }
     context: PluginContext
   }) => Promise<{

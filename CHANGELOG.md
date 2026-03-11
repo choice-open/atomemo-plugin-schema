@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Typed `CredentialDefinition.authenticate` input `args.extra` as optional (`{ ... } | undefined`) so the whole field can be omitted
+
 ## [0.4.0] - 2026-03-11
 
 ### Added
