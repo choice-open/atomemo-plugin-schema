@@ -17,7 +17,7 @@ import type {
   PropertyString,
 } from "../types"
 import { compact } from "../utils/toolkit"
-import { I18nEntrySchema, nameSchema } from "./common"
+import { I18nEntrySchema } from "./common"
 import {
   PropertyUIArraySchema,
   PropertyUIBooleanSchema,
@@ -74,8 +74,45 @@ const FilterSchema: z.ZodType<DisplayCondition> = z.union([
   RootFilterSchema,
 ])
 
+/**
+ * Property Name Schema
+ *
+ * 1. Can only contain English letters (case insensitive), numbers, _ and -
+ * 2. Must start with an English letter and cannot end with _ or -
+ * 3. _ and - cannot appear consecutively more than once
+ * 4. minimum length 1(inclusive), maximum length 64(inclusive)
+ */
+const propertyNameSchema = z
+  .string()
+  .min(1, "name must be between 1 and 64 characters")
+  .max(64, "name must be between 1 and 64 characters")
+  .refine((value) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(value), {
+    error:
+      "name can only contain English letters, numbers, underscores, and hyphens, and must start with a letter",
+    abort: true,
+  })
+  .refine((value) => !/[_-]$/.test(value), {
+    error: "name cannot end with underscore or hyphen",
+    abort: true,
+  })
+  .refine(
+    (value) => {
+      for (let i = 1; i < value.length; i++) {
+        const prev = value[i - 1]
+        const curr = value[i]
+        const isPrevSymbol = prev === "_" || prev === "-"
+        const isCurrSymbol = curr === "_" || curr === "-"
+        if (isPrevSymbol && isCurrSymbol) return false
+      }
+      return true
+    },
+    {
+      error: "underscores and hyphens cannot appear consecutively",
+    },
+  )
+
 const PropertyBaseSchema = z.object({
-  name: nameSchema,
+  name: propertyNameSchema,
   display_name: I18nEntrySchema.nullish(),
   required: z.boolean().nullish(),
   display: z

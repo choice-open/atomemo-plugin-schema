@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Tightened `PropertyBase.name` validation rules so property names must start with an English letter, only use ASCII letters, numbers, underscores, and hyphens, cannot end with `_` or `-`, and cannot contain consecutive underscore/hyphen characters
+
 ## [0.5.1] - 2026-03-13
 
 ### Changed

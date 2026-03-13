@@ -31,15 +31,14 @@ describe("PropertyBaseSchema - name validation", () => {
       const result = PropertiesSchema.safeParse([createProperty("$name")])
       expect(result.success).toBe(false)
     })
-
-    test("should accept name with $ in the middle", () => {
+    test("should reject name with $ in the middle", () => {
       const result = PropertiesSchema.safeParse([createProperty("na$me")])
-      expect(result.success).toBe(true)
+      expect(result.success).toBe(false)
     })
 
-    test("should accept name ending with $", () => {
+    test("should reject name ending with $", () => {
       const result = PropertiesSchema.safeParse([createProperty("name$")])
-      expect(result.success).toBe(true)
+      expect(result.success).toBe(false)
     })
   })
 
@@ -86,9 +85,39 @@ describe("PropertyBaseSchema - name validation", () => {
       expect(result.success).toBe(true)
     })
 
-    test("should accept name with unicode characters", () => {
+    test("should reject name with unicode characters", () => {
       const result = PropertiesSchema.safeParse([createProperty("名前")])
-      expect(result.success).toBe(true)
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name starting with a number", () => {
+      const result = PropertiesSchema.safeParse([createProperty("1name")])
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name ending with underscore", () => {
+      const result = PropertiesSchema.safeParse([createProperty("name_")])
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name ending with hyphen", () => {
+      const result = PropertiesSchema.safeParse([createProperty("name-")])
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with consecutive underscores", () => {
+      const result = PropertiesSchema.safeParse([createProperty("my__name")])
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with consecutive hyphens", () => {
+      const result = PropertiesSchema.safeParse([createProperty("my--name")])
+      expect(result.success).toBe(false)
+    })
+
+    test("should reject name with mixed consecutive underscore and hyphen", () => {
+      const result = PropertiesSchema.safeParse([createProperty("my_-name")])
+      expect(result.success).toBe(false)
     })
   })
 })
