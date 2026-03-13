@@ -8,7 +8,7 @@ import type {
   ToolDefinition,
 } from "../types"
 import { JsonValueSchema } from "../utils/custom-json-value"
-import { I18nEntrySchema, PluginContextSchema } from "./common"
+import { I18nEntrySchema, nameSchema, PluginContextSchema } from "./common"
 import { PropertiesScalarSchema, PropertiesSchema } from "./property"
 
 /**
@@ -17,14 +17,7 @@ import { PropertiesScalarSchema, PropertiesSchema } from "./property"
  * This is the base class for all function definition schemas, defining common properties and not used independently
  */
 export const BaseDefinitionSchema = z.object({
-  // 1. Can only contain English letters (case insensitive), numbers, _ and -
-  // 2. Must start with an English letter and cannot end with _ or -
-  // 3. _ and - cannot appear consecutively more than once
-  // 4. Minimum length 4, maximum length 64
-  name: z.string().regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_-]){3,63}[a-zA-Z0-9]$/, {
-    error:
-      "Invalid name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64",
-  }),
+  name: nameSchema,
   display_name: I18nEntrySchema,
   description: I18nEntrySchema,
   icon: z.string(),

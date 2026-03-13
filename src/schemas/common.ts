@@ -32,16 +32,18 @@ export const I18nEntrySchema = z.custom<I18nText>((value) => {
   const _: IsEqual<z.infer<typeof I18nEntrySchema>, I18nText> = true
 }
 
+// All fields are nullable because `undefined` is not a valid JSON value,
+// and `FileRefSchema` instances may be returned from tool invocations.
 export const FileRefSchema = z.object({
   __type__: z.literal("file_ref"),
   source: z.enum(["mem", "oss"]),
-  filename: z.string().nullish(),
-  extension: z.string().nullish(),
-  mime_type: z.string().nullish(),
-  size: z.number().nullish(),
-  res_key: z.string().nullish(),
-  remote_url: z.string().nullish(),
-  content: z.base64().nullish(),
+  filename: z.string().nullable(),
+  extension: z.string().nullable(),
+  mime_type: z.string().nullable(),
+  size: z.number().nullable(),
+  res_key: z.string().nullable(),
+  remote_url: z.string().nullable(),
+  content: z.base64().nullable(),
 })
 
 const _PluginContextSchema = z.object({
@@ -76,3 +78,18 @@ const _PluginContextSchema = z.object({
 export const PluginContextSchema = z.custom<z.infer<typeof _PluginContextSchema>>(
   (value) => _PluginContextSchema.safeParse(value).success,
 )
+
+/**
+ * Name Schema
+ *
+ * 1. Can only contain English letters (case insensitive), numbers, _ and -
+ * 2. Must start with an English letter and cannot end with _ or -
+ * 3. _ and - cannot appear consecutively more than once
+ * 4. Minimum length 4, maximum length 64
+ */
+export const nameSchema = z
+  .string()
+  .regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_-]){3,63}[a-zA-Z0-9]$/, {
+    error:
+      "Invalid name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64",
+  })

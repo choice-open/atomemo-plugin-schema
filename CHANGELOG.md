@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `FileRefSchema` fields to use explicit `nullable` types instead of `nullish` so `FileRef` values are always JSON-serializable when returned from tool invocations
+- Extracted shared `nameSchema` for validating `name` fields in base definitions and properties, ensuring consistent naming rules across schemas
+
 ## [0.5.0] - 2026-03-13
 
 ### Added

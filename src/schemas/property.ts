@@ -17,7 +17,7 @@ import type {
   PropertyString,
 } from "../types"
 import { compact } from "../utils/toolkit"
-import { I18nEntrySchema } from "./common"
+import { I18nEntrySchema, nameSchema } from "./common"
 import {
   PropertyUIArraySchema,
   PropertyUIBooleanSchema,
@@ -75,29 +75,7 @@ const FilterSchema: z.ZodType<DisplayCondition> = z.union([
 ])
 
 const PropertyBaseSchema = z.object({
-  name: z
-    .string()
-    .min(1, "name cannot be empty")
-    .refine(
-      (val) => {
-        const regexStartsWithDollarOrWhitespace = /^[\s$]/
-        return !regexStartsWithDollarOrWhitespace.test(val)
-      },
-      {
-        error: "name cannot start with $ or whitespace",
-        abort: true,
-      },
-    )
-    .refine(
-      (val) => {
-        const forbiddenCharacters = [".", "[", "]"]
-        return !forbiddenCharacters.some((char) => val.includes(char))
-      },
-      {
-        error: 'name cannot contain ".", "[", or "]" characters',
-        abort: true,
-      },
-    ),
+  name: nameSchema,
   display_name: I18nEntrySchema.nullish(),
   required: z.boolean().nullish(),
   display: z
