@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-13
+
+### Added
+
+- OAuth2 support for `CredentialDefinition`: optional `oauth2` flag and callbacks `oauth2_build_authorize_url`, `oauth2_get_token`, and `oauth2_refresh_token` for the OAuth2 authorization and token lifecycle
+- Schema validation that when `oauth2` is true, credential `parameters` must include required OAuth2 fields: `client_id` (required string), `client_secret` (required encrypted_string), `access_token` (encrypted_string), `refresh_token` (encrypted_string), and `expires_at` (integer)
+
 ## [0.4.1] - 2026-03-11
 
 ### Fixed
@@ -330,7 +337,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.4.1...v0.5.0
+[0.4.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.3.3...v0.4.0
 [0.3.3]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.2.18...v0.3.3
 [0.3.2]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.3.1...v0.3.2
