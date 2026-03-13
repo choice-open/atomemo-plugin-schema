@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- OAuth2 support for `CredentialDefinition`: optional `oauth2` flag and callbacks `oauth2_build_authorize_url`, `oauth2_get_token`, and `oauth2_refresh_token` for the OAuth2 authorization and token lifecycle
+- Schema validation that when `oauth2` is true, credential `parameters` must include required OAuth2 fields: `client_id` (required string), `client_secret` (required encrypted_string), `access_token` (encrypted_string), `refresh_token` (encrypted_string), and `expires_at` (integer)
+
 ## [0.4.1] - 2026-03-11
 
 ### Fixed

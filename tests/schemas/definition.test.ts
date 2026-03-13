@@ -306,10 +306,155 @@ describe("CredentialDefinitionSchema", () => {
     expect(result.success).toBe(true)
   })
 
+  test("should accept oauth2 credential with required oauth2 parameters", () => {
+    const oauth2Credential = {
+      ...validCredential,
+      oauth2: true,
+      parameters: [
+        {
+          type: "string",
+          name: "client_id",
+          required: true,
+        },
+        {
+          type: "encrypted_string",
+          name: "client_secret",
+          required: true,
+        },
+        {
+          type: "encrypted_string",
+          name: "access_token",
+        },
+        {
+          type: "encrypted_string",
+          name: "refresh_token",
+        },
+        {
+          type: "integer",
+          name: "expires_at",
+        },
+      ],
+    }
+
+    const result = CredentialDefinitionSchema.safeParse(oauth2Credential)
+    expect(result.success).toBe(true)
+  })
+
+  test("should reject oauth2 credential missing required oauth2 parameters", () => {
+    const oauth2CredentialMissing = {
+      ...validCredential,
+      oauth2: true,
+      parameters: [
+        {
+          type: "encrypted_string",
+          name: "client_secret",
+          required: true,
+        },
+      ],
+    }
+
+    const result = CredentialDefinitionSchema.safeParse(oauth2CredentialMissing)
+    expect(result.success).toBe(false)
+  })
+
+  test("should reject oauth2 credential with incorrect oauth2 parameter types", () => {
+    const oauth2CredentialWrongTypes = {
+      ...validCredential,
+      oauth2: true,
+      parameters: [
+        {
+          type: "encrypted_string",
+          name: "client_id",
+          required: true,
+        },
+        {
+          type: "string",
+          name: "client_secret",
+          required: true,
+        },
+        {
+          type: "encrypted_string",
+          name: "access_token",
+        },
+        {
+          type: "encrypted_string",
+          name: "refresh_token",
+        },
+        {
+          type: "number",
+          name: "expires_at",
+        },
+      ],
+    }
+
+    const result = CredentialDefinitionSchema.safeParse(oauth2CredentialWrongTypes)
+    expect(result.success).toBe(false)
+  })
+
   test("should reject credential without parameters", () => {
     const { parameters: _, ...withoutParams } = validCredential
     const result = CredentialDefinitionSchema.safeParse(withoutParams)
     expect(result.success).toBe(false)
+  })
+
+  test("oauth2_get_token should allow parameters_patch with access_token and refresh_token", async () => {
+    const credentialWithOAuthGetToken = {
+      ...validCredential,
+      oauth2_get_token: async () => ({
+        parameters_patch: {
+          access_token: "access",
+          refresh_token: "refresh",
+        },
+      }),
+    }
+
+    const parseResult = CredentialDefinitionSchema.safeParse(credentialWithOAuthGetToken)
+    expect(parseResult.success).toBe(true)
+  })
+
+  test("oauth2_get_token should allow parameters_patch with expires_at", async () => {
+    const credentialWithOAuthGetToken = {
+      ...validCredential,
+      oauth2_get_token: async () => ({
+        parameters_patch: {
+          access_token: "access",
+          refresh_token: "refresh",
+          expires_at: 1_700_000_000,
+        },
+      }),
+    }
+
+    const parseResult = CredentialDefinitionSchema.safeParse(credentialWithOAuthGetToken)
+    expect(parseResult.success).toBe(true)
+  })
+
+  test("oauth2_refresh_token should allow parameters_patch with access_token", async () => {
+    const credentialWithOAuthRefreshToken = {
+      ...validCredential,
+      oauth2_refresh_token: async () => ({
+        parameters_patch: {
+          access_token: "new-access",
+        },
+      }),
+    }
+
+    const parseResult = CredentialDefinitionSchema.safeParse(credentialWithOAuthRefreshToken)
+    expect(parseResult.success).toBe(true)
+  })
+
+  test("oauth2_refresh_token should allow parameters_patch with expires_at", async () => {
+    const credentialWithOAuthRefreshToken = {
+      ...validCredential,
+      oauth2_refresh_token: async () => ({
+        parameters_patch: {
+          access_token: "new-access",
+          expires_at: null,
+        },
+      }),
+    }
+
+    const parseResult = CredentialDefinitionSchema.safeParse(credentialWithOAuthRefreshToken)
+    expect(parseResult.success).toBe(true)
   })
 })
 

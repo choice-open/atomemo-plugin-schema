@@ -74,11 +74,121 @@ const CredentialAuthenticateSchema = z.function({
   ),
 })
 
-export const CredentialDefinitionSchema = z.object({
-  ...BaseDefinitionSchema.shape,
-  authenticate: CredentialAuthenticateSchema.optional(),
-  parameters: PropertiesScalarSchema,
+const OAuth2BuildAuthorizeUrlSchema = z.function({
+  input: z.tuple([
+    z.object({
+      args: z.object({
+        credential: z.record(z.string(), z.string().nullish()),
+        redirect_uri: z.string(),
+        state: z.string(),
+      }),
+      context: PluginContextSchema,
+    }),
+  ]),
+  output: z.promise(z.object({ url: z.string() })),
 })
+
+const OAuth2GetTokenSchema = z.function({
+  input: z.tuple([
+    z.object({
+      args: z.object({
+        credential: z.record(z.string(), z.string().nullish()),
+        code: z.string(),
+        redirect_uri: z.string(),
+      }),
+      context: PluginContextSchema,
+    }),
+  ]),
+  output: z.promise(
+    z.object({
+      parameters_patch: z
+        .object({
+          access_token: z.string(),
+          refresh_token: z.string(),
+          expires_at: z.number().nullish(),
+        })
+        .catchall(z.unknown()),
+    }),
+  ),
+})
+
+const OAuth2RefreshTokenSchema = z.function({
+  input: z.tuple([
+    z.object({
+      args: z.object({
+        credential: z.record(z.string(), z.string().nullish()),
+      }),
+      context: PluginContextSchema,
+    }),
+  ]),
+  output: z.promise(
+    z.object({
+      parameters_patch: z
+        .object({
+          access_token: z.string(),
+          expires_at: z.number().nullish(),
+        })
+        .catchall(z.unknown()),
+    }),
+  ),
+})
+
+const OAuth2RequiredParametersSpec = [
+  {
+    name: "client_id",
+    type: "string",
+    required: true,
+  },
+  {
+    name: "client_secret",
+    type: "encrypted_string",
+    required: true,
+  },
+  {
+    name: "access_token",
+    type: "encrypted_string",
+  },
+  {
+    name: "refresh_token",
+    type: "encrypted_string",
+  },
+  {
+    name: "expires_at",
+    type: "integer",
+  },
+] as const
+
+export const CredentialDefinitionSchema = z
+  .object({
+    ...BaseDefinitionSchema.shape,
+    authenticate: CredentialAuthenticateSchema.optional(),
+    oauth2: z.boolean().optional(),
+    oauth2_build_authorize_url: OAuth2BuildAuthorizeUrlSchema.optional(),
+    oauth2_get_token: OAuth2GetTokenSchema.optional(),
+    oauth2_refresh_token: OAuth2RefreshTokenSchema.optional(),
+    parameters: PropertiesScalarSchema,
+  })
+  // check oauth2 required parameters
+  .refine(
+    (value) => {
+      if (!value.oauth2) return true
+      const parameters = value.parameters ?? []
+      return OAuth2RequiredParametersSpec.every((spec) => {
+        const param = parameters.find((param) => param.name === spec.name)
+        if (!param) return false
+        // check required
+        if ("required" in spec && param.required !== spec.required) return false
+        // check type
+        if ("type" in spec && param.type !== spec.type) return false
+        return true
+      })
+    },
+    {
+      path: ["parameters"],
+      message:
+        "When oauth2 is true, parameters must include: client_id (required string), client_secret (required encrypted_string), access_token (encrypted_string), refresh_token (encrypted_string), and expires_at (integer).",
+    },
+  )
 {
   const _: IsEqual<z.infer<typeof CredentialDefinitionSchema>, CredentialDefinition> = true
 }
