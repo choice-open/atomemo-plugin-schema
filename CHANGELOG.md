@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-03-16
+
 ### Changed
 
 - Credential input `args.credential` now accepts string, number, and boolean values in addition to string; added `CredentialInputArgsCredential` type and `CredentialInputArgsCredentialSchema` for `authenticate`, `oauth2_build_authorize_url`, `oauth2_get_token`, and `oauth2_refresh_token`
