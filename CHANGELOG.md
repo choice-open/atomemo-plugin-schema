@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+
+## [0.5.4] - 2026-03-16
+
+### Added
+
 - Added optional `skill` field to `ToolDefinition` types and `ToolDefinitionSchema` for linking tools to Atomemo skills
 
 ## [0.5.3] - 2026-03-16
@@ -360,7 +365,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.3...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.4...HEAD
+[0.5.4]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.3...v0.5.4
 [0.5.3]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.2...v0.5.3
 [0.5.2]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.1...v0.5.2
 [0.5.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.0...v0.5.1
