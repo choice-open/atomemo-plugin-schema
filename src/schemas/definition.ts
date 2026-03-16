@@ -3,6 +3,7 @@ import { z } from "zod"
 import type {
   BaseDefinition,
   CredentialDefinition,
+  CredentialInputArgsCredential,
   ModelDefinition,
   PluginDefinition,
   ToolDefinition,
@@ -42,11 +43,22 @@ export const PluginDefinitionSchema = z.object({
   > = true
 }
 
+const CredentialInputArgsCredentialSchema = z.record(
+  z.string(),
+  z.string().or(z.number()).or(z.boolean()).nullish(),
+)
+{
+  const _: IsEqual<
+    z.infer<typeof CredentialInputArgsCredentialSchema>,
+    CredentialInputArgsCredential
+  > = true
+}
+
 const CredentialAuthenticateSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: z.record(z.string(), z.string().nullish()),
+        credential: CredentialInputArgsCredentialSchema,
         extra: z
           .looseObject({
             model: z.string().optional(),
@@ -71,7 +83,8 @@ const OAuth2BuildAuthorizeUrlSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: z.record(z.string(), z.string().nullish()),
+        credential: CredentialInputArgsCredentialSchema,
+
         redirect_uri: z.string(),
         state: z.string(),
       }),
@@ -85,7 +98,7 @@ const OAuth2GetTokenSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: z.record(z.string(), z.string().nullish()),
+        credential: CredentialInputArgsCredentialSchema,
         code: z.string(),
         redirect_uri: z.string(),
       }),
@@ -109,7 +122,7 @@ const OAuth2RefreshTokenSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: z.record(z.string(), z.string().nullish()),
+        credential: CredentialInputArgsCredentialSchema,
       }),
       context: PluginContextSchema,
     }),
