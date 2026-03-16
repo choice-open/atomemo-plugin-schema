@@ -374,4 +374,5 @@ export interface ToolDefinition extends BaseDefinition {
    * Parameters
    */
   parameters: Array<Property>
+  skill?: string | null
 }

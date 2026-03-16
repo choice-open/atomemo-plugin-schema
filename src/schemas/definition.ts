@@ -306,6 +306,7 @@ export const ToolDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
   invoke: ToolInvokeFunctionSchema,
   parameters: PropertiesSchema,
+  skill: z.string().nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof ToolDefinitionSchema>, ToolDefinition> = true
