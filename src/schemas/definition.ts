@@ -3,13 +3,16 @@ import { z } from "zod"
 import type {
   BaseDefinition,
   CredentialDefinition,
-  CredentialInputArgsCredential,
+  InputArgsCredential,
   ModelDefinition,
   PluginDefinition,
   ToolDefinition,
+  ToolLocatorListFunction,
+  ToolResourceMappingField,
+  ToolResourceMappingFunction,
 } from "../types"
 import { JsonValueSchema } from "../utils/custom-json-value"
-import { I18nEntrySchema, nameSchema, PluginContextSchema } from "./common"
+import { I18nEntrySchema, PluginContextSchema } from "./common"
 import { PropertiesScalarSchema, PropertiesSchema } from "./property"
 
 /**
@@ -18,7 +21,18 @@ import { PropertiesScalarSchema, PropertiesSchema } from "./property"
  * This is the base class for all function definition schemas, defining common properties and not used independently
  */
 export const BaseDefinitionSchema = z.object({
-  name: nameSchema,
+  /**
+   * Name Schema
+   *
+   * 1. Can only contain English letters (case insensitive), numbers, _ and -
+   * 2. Must start with an English letter and cannot end with _ or -
+   * 3. _ and - cannot appear consecutively more than once
+   * 4. Minimum length 4, maximum length 64
+   */
+  name: z.string().regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_-]){3,63}[a-zA-Z0-9]$/, {
+    error:
+      "Invalid name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64",
+  }),
   display_name: I18nEntrySchema,
   description: I18nEntrySchema,
   icon: z.string(),
@@ -43,22 +57,19 @@ export const PluginDefinitionSchema = z.object({
   > = true
 }
 
-const CredentialInputArgsCredentialSchema = z.record(
+const InputArgsCredentialSchema = z.record(
   z.string(),
   z.string().or(z.number()).or(z.boolean()).nullish(),
 )
 {
-  const _: IsEqual<
-    z.infer<typeof CredentialInputArgsCredentialSchema>,
-    CredentialInputArgsCredential
-  > = true
+  const _: IsEqual<z.infer<typeof InputArgsCredentialSchema>, InputArgsCredential> = true
 }
 
 const CredentialAuthenticateSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: CredentialInputArgsCredentialSchema,
+        credential: InputArgsCredentialSchema,
         extra: z
           .looseObject({
             model: z.string().optional(),
@@ -83,8 +94,7 @@ const OAuth2BuildAuthorizeUrlSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: CredentialInputArgsCredentialSchema,
-
+        credential: InputArgsCredentialSchema,
         redirect_uri: z.string(),
         state: z.string(),
       }),
@@ -98,7 +108,7 @@ const OAuth2GetTokenSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: CredentialInputArgsCredentialSchema,
+        credential: InputArgsCredentialSchema,
         code: z.string(),
         redirect_uri: z.string(),
       }),
@@ -122,7 +132,7 @@ const OAuth2RefreshTokenSchema = z.function({
   input: z.tuple([
     z.object({
       args: z.object({
-        credential: CredentialInputArgsCredentialSchema,
+        credential: InputArgsCredentialSchema,
       }),
       context: PluginContextSchema,
     }),
@@ -294,7 +304,7 @@ const ToolInvokeFunctionSchema = z.function({
     z.object({
       args: z.object({
         parameters: z.record(z.string(), z.any()),
-        credentials: z.record(z.string(), z.record(z.string(), z.any())).optional(),
+        credentials: z.record(z.string(), InputArgsCredentialSchema).optional(),
       }),
       context: PluginContextSchema,
     }),
@@ -302,10 +312,79 @@ const ToolInvokeFunctionSchema = z.function({
   output: z.promise(JsonValueSchema),
 })
 
+const ToolLocatorListFunctionSchema = z.function({
+  input: z.tuple([
+    z.object({
+      filter: z.string().nullish(),
+      pagination_token: z.string().nullish(),
+      parameters: z.record(z.string(), z.unknown()),
+      credentials: z.record(z.string(), InputArgsCredentialSchema),
+    }),
+  ]),
+  output: z.promise(
+    z.object({
+      results: z.array(
+        z.object({
+          label: z.string(),
+          value: z.string(),
+          url: z.string().nullish(),
+        }),
+      ),
+      pagination_token: z.string().nullish(),
+    }),
+  ),
+})
+{
+  const _: IsEqual<z.infer<typeof ToolLocatorListFunctionSchema>, ToolLocatorListFunction> = true
+}
+
+const ToolResourceMappingFieldSchema = z.object({
+  id: z.string(),
+  display_name: I18nEntrySchema.nullish(),
+  type: z.union([
+    z.literal("string"),
+    z.literal("number"),
+    z.literal("boolean"),
+    z.literal("object"),
+    z.literal("array"),
+    z.literal("integer"),
+  ]),
+  required: z.boolean().nullish(),
+  display: z.boolean().nullish(),
+})
+{
+  const _: IsEqual<z.infer<typeof ToolResourceMappingFieldSchema>, ToolResourceMappingField> = true
+}
+
+const ToolResourceMappingFunctionSchema = z.function({
+  input: z.tuple([
+    z.object({
+      args: z.object({
+        parameters: z.record(z.string(), z.unknown()),
+        credentials: z.record(z.string(), InputArgsCredentialSchema),
+      }),
+    }),
+  ]),
+  output: z.promise(
+    z.object({
+      fields: z.array(ToolResourceMappingFieldSchema),
+      empty_fields_notice: I18nEntrySchema.nullish(),
+    }),
+  ),
+})
+{
+  const _: IsEqual<
+    z.infer<typeof ToolResourceMappingFunctionSchema>,
+    ToolResourceMappingFunction
+  > = true
+}
+
 export const ToolDefinitionSchema = z.object({
   ...BaseDefinitionSchema.shape,
   invoke: ToolInvokeFunctionSchema,
   parameters: PropertiesSchema,
+  locator_list: z.record(z.string(), ToolLocatorListFunctionSchema).nullish(),
+  resource_mapping: z.record(z.string(), ToolResourceMappingFunctionSchema).nullish(),
   skill: z.string().nullish(),
 })
 {

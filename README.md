@@ -120,6 +120,8 @@ The property system is the core of defining plugin parameters and settings:
 - `discriminated_union`: Discriminated union type
 - `credential_id`: Credential ID type
 - `encrypted_string`: Encrypted string type
+- `resource_locator`: Resource selector type with list/url/id modes
+- `resource_mapper`: Column/field mapping type for structured resources
 
 **Property Features:**
 - Constant values (`constant`)

@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added `resource_locator` and `resource_mapper` property support across runtime schemas and TypeScript types, including `ResourceLocatorValue`/`ResourceMapperValue`, `PropertyResourceLocator`, `PropertyResourceMapper`, and related schema exports
+- Added tool-level resource helper contracts: `locator_list` and `resource_mapping` on `ToolDefinition`/`ToolDefinitionSchema`, plus `ToolLocatorListFunction`, `ToolResourceMappingFunction`, and `ToolResourceMappingField` types
+- Added `depends_on` to `PropertyBase` and `PropertyBaseSchema` for declaring inter-property dependencies
+
+### Changed
+
+- Replaced shared property key validation with `strictNameSchema` for property names and `depends_on` references (letters/numbers/underscores only, single-char minimum, no trailing or consecutive underscores), while keeping base definition name validation behavior unchanged
+- Renamed credential argument alias from `CredentialInputArgsCredential` to `InputArgsCredential` and aligned related credential/tool schema typing to use the new alias consistently
+- Updated `ToolDefinition.invoke` credential typing to use `Record<string, InputArgsCredential>`
+
+### Documentation
+
+- Updated `README.md` and `README.zh-CN.md` to document `resource_locator` and `resource_mapper` as supported property types
+
+### Tests
+
+- Updated property name validation coverage by removing the hyphenated-name acceptance case to match the stricter property name schema
+
 
 ## [0.5.4] - 2026-03-16
 

@@ -46,6 +46,20 @@ export const FileRefSchema = z.object({
   content: z.base64().nullable(),
 })
 
+export const ResourceLocatorValueSchema = z.object({
+  __type__: z.literal("resource_locator"),
+  mode_name: z.enum(["list", "url", "id"]),
+  value: z.string().nullable(),
+  cached_result_label: z.string().nullish(),
+  cached_result_url: z.string().nullish(),
+})
+
+export const ResourceMapperValueSchema = z.object({
+  __type__: z.literal("resource_mapper"),
+  mapping_mode: z.enum(["manual", "auto"]),
+  value: z.union([z.record(z.string(), z.unknown()), z.string(), z.null()]),
+})
+
 const _PluginContextSchema = z.object({
   files: z.object({
     attachRemoteUrl: z.function({
@@ -80,16 +94,43 @@ export const PluginContextSchema = z.custom<z.infer<typeof _PluginContextSchema>
 )
 
 /**
- * Name Schema
+ * Strict Name Schema
  *
- * 1. Can only contain English letters (case insensitive), numbers, _ and -
- * 2. Must start with an English letter and cannot end with _ or -
- * 3. _ and - cannot appear consecutively more than once
- * 4. Minimum length 4, maximum length 64
+ * why this exists: expression in Atomemo only support key which match strict name schema
+ *
+ * 1. Can only contain English letters (case insensitive), numbers, _
+ * 2. Must start with an English letter and cannot end with _
+ * 3. _ cannot appear consecutively more than once
+ * 4. minimum length 1(inclusive), maximum length 64(inclusive)
+ *
+ * Compared with other (non-strict) name validations in the codebase, strictNameSchema does not allow hyphens and uses a minimum length of 1 (some non-strict names may require a minimum length of 4).
+ *
  */
-export const nameSchema = z
+export const strictNameSchema = z
   .string()
-  .regex(/^[a-zA-Z](?:(?![_-]{2,})[a-zA-Z0-9_-]){3,63}[a-zA-Z0-9]$/, {
+  .min(1, "name must be between 1 and 64 characters")
+  .max(64, "name must be between 1 and 64 characters")
+  .refine((value) => /^[A-Za-z][A-Za-z0-9_]*$/.test(value), {
     error:
-      "Invalid name, should match the following rules: 1. only English letters, numbers, _ and - 2. start with English letter, end with English letter or number 3. _ and - cannot appear consecutively more than twice 4. minimum length 4, maximum length 64",
+      "name can only contain English letters, numbers, and underscores, and must start with a letter",
+    abort: true,
   })
+  .refine((value) => !/[_]$/.test(value), {
+    error: "name cannot end with underscore",
+    abort: true,
+  })
+  .refine(
+    (value) => {
+      for (let i = 1; i < value.length; i++) {
+        const prev = value[i - 1]
+        const curr = value[i]
+        const isPrevSymbol = prev === "_"
+        const isCurrSymbol = curr === "_"
+        if (isPrevSymbol && isCurrSymbol) return false
+      }
+      return true
+    },
+    {
+      error: "underscores cannot appear consecutively",
+    },
+  )
