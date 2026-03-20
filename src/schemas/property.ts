@@ -13,11 +13,20 @@ import type {
   PropertyFileReference,
   PropertyNumber,
   PropertyObject,
+  PropertyResourceLocator,
+  PropertyResourceMapper,
   PropertyScalar,
   PropertyString,
+  ResourceLocatorMode,
+  ResourceMapperSchemaField,
 } from "../types"
 import { compact } from "../utils/toolkit"
-import { I18nEntrySchema } from "./common"
+import {
+  I18nEntrySchema,
+  ResourceLocatorValueSchema,
+  ResourceMapperValueSchema,
+  strictNameSchema,
+} from "./common"
 import {
   PropertyUIArraySchema,
   PropertyUIBooleanSchema,
@@ -74,45 +83,8 @@ const FilterSchema: z.ZodType<DisplayCondition> = z.union([
   RootFilterSchema,
 ])
 
-/**
- * Property Name Schema
- *
- * 1. Can only contain English letters (case insensitive), numbers, _ and -
- * 2. Must start with an English letter and cannot end with _ or -
- * 3. _ and - cannot appear consecutively more than once
- * 4. minimum length 1(inclusive), maximum length 64(inclusive)
- */
-const propertyNameSchema = z
-  .string()
-  .min(1, "name must be between 1 and 64 characters")
-  .max(64, "name must be between 1 and 64 characters")
-  .refine((value) => /^[A-Za-z][A-Za-z0-9_-]*$/.test(value), {
-    error:
-      "name can only contain English letters, numbers, underscores, and hyphens, and must start with a letter",
-    abort: true,
-  })
-  .refine((value) => !/[_-]$/.test(value), {
-    error: "name cannot end with underscore or hyphen",
-    abort: true,
-  })
-  .refine(
-    (value) => {
-      for (let i = 1; i < value.length; i++) {
-        const prev = value[i - 1]
-        const curr = value[i]
-        const isPrevSymbol = prev === "_" || prev === "-"
-        const isCurrSymbol = curr === "_" || curr === "-"
-        if (isPrevSymbol && isCurrSymbol) return false
-      }
-      return true
-    },
-    {
-      error: "underscores and hyphens cannot appear consecutively",
-    },
-  )
-
 const PropertyBaseSchema = z.object({
-  name: propertyNameSchema,
+  name: strictNameSchema,
   display_name: I18nEntrySchema.nullish(),
   required: z.boolean().nullish(),
   display: z
@@ -127,6 +99,7 @@ const PropertyBaseSchema = z.object({
     })
     .nullish(),
   ui: PropertyUICommonPropsSchema.nullish(),
+  depends_on: z.array(strictNameSchema).nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyBaseSchema>, PropertyBase<string>> = true
@@ -314,6 +287,71 @@ export const PropertyEncryptedStringSchema = PropertyBaseSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyEncryptedStringSchema>, PropertyEncryptedString> = true
 }
 
+const ResourceLocatorModeSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("list"),
+    display_name: I18nEntrySchema.nullish(),
+    placeholder: I18nEntrySchema.nullish(),
+    search_list_method: strictNameSchema,
+    searchable: z.boolean().nullish(),
+  }),
+  z.object({
+    type: z.literal("url"),
+    display_name: I18nEntrySchema.nullish(),
+    placeholder: I18nEntrySchema.nullish(),
+    extract_value: z.object({
+      type: z.literal("regex"),
+      regex: z.string().min(1, "regex cannot be empty"),
+    }),
+  }),
+  z.object({
+    type: z.literal("id"),
+    display_name: I18nEntrySchema.nullish(),
+    placeholder: I18nEntrySchema.nullish(),
+  }),
+])
+
+{
+  const _: IsEqual<z.infer<typeof ResourceLocatorModeSchema>, ResourceLocatorMode> = true
+}
+
+export const PropertyResourceLocatorSchema = PropertyBaseSchema.extend({
+  type: z.literal("resource_locator"),
+  default: ResourceLocatorValueSchema.nullish(),
+  modes: z.array(ResourceLocatorModeSchema),
+})
+{
+  const _: IsEqual<
+    z.infer<typeof PropertyResourceLocatorSchema>,
+    PropertyResourceLocator<string>
+  > = true
+}
+
+const ResourceMapperSchemaFieldSchema = z.object({
+  id: z.string().min(1, "id cannot be empty"),
+  display_name: I18nEntrySchema.nullish(),
+  type: z.enum(["string", "number", "boolean", "object", "array", "integer"]),
+  required: z.boolean().nullish(),
+})
+{
+  const _: IsEqual<
+    z.infer<typeof ResourceMapperSchemaFieldSchema>,
+    ResourceMapperSchemaField
+  > = true
+}
+
+export const PropertyResourceMapperSchema = PropertyBaseSchema.extend({
+  type: z.literal("resource_mapper"),
+  mapping_method: z.string().min(1, "mapping_method cannot be empty"),
+  default: ResourceMapperValueSchema.nullish(),
+})
+{
+  const _: IsEqual<
+    z.infer<typeof PropertyResourceMapperSchema>,
+    PropertyResourceMapper<string>
+  > = true
+}
+
 export const PropertyFileReferenceSchema = PropertyBaseSchema.extend({
   type: z.literal("file_ref"),
 })
@@ -340,6 +378,8 @@ export const PropertiesScalarSchema = z.lazy(() =>
 const PropertySchema = z.union([
   ...PropertyScalarSchema.options,
   PropertyCredentialIdSchema,
+  PropertyResourceLocatorSchema,
+  PropertyResourceMapperSchema,
   PropertyArraySchema,
   PropertyObjectSchema,
   PropertyFileReferenceSchema,

@@ -1,5 +1,5 @@
 import type { JsonObject, JsonValue } from "type-fest"
-import type { I18nText } from "./common"
+import type { I18nText, ResourceLocatorValue, ResourceMapperValue } from "./common"
 import type {
   PropertyUIArray,
   PropertyUIBoolean,
@@ -140,6 +140,13 @@ export interface PropertyBase<TName extends string = string> {
    * UI configuration for how the property is displayed
    */
   ui?: PropertyUICommonProps | null
+  /**
+   * Currently only supported by resource locator and resource mapper properties.
+   *
+   * Property types that can be depended on: string, number/integer, boolean, resource_locator.
+   * Property types that can use `depends_on`: resource_locator, resource_mapper.
+   */
+  depends_on?: Array<string> | null
 }
 
 export interface PropertyString<TName extends string = string> extends PropertyBase<TName> {
@@ -321,6 +328,49 @@ export interface PropertyEncryptedString<TName extends string = string>
   enum?: null
 }
 
+export type ResourceLocatorMode =
+  | {
+      type: "list"
+      display_name?: I18nText | null
+      placeholder?: I18nText | null
+      search_list_method: string
+      searchable?: boolean | null
+    }
+  | {
+      type: "url"
+      display_name?: I18nText | null
+      placeholder?: I18nText | null
+      extract_value: {
+        type: "regex"
+        regex: string
+      }
+    }
+  | {
+      type: "id"
+      display_name?: I18nText | null
+      placeholder?: I18nText | null
+    }
+
+export interface PropertyResourceLocator<TName extends string = string>
+  extends PropertyBase<TName> {
+  type: "resource_locator"
+  default?: ResourceLocatorValue | null
+  modes: Array<ResourceLocatorMode>
+}
+
+export interface ResourceMapperSchemaField {
+  id: string
+  display_name?: I18nText | null
+  type: "string" | "number" | "boolean" | "object" | "array" | "integer"
+  required?: boolean | null
+}
+
+export interface PropertyResourceMapper<TName extends string = string> extends PropertyBase<TName> {
+  type: "resource_mapper"
+  mapping_method: string
+  default?: ResourceMapperValue | null
+}
+
 export interface PropertyFileReference<TName extends string = string> extends PropertyBase<TName> {
   type: "file_ref"
 }
@@ -334,6 +384,8 @@ export type PropertyScalar<TName extends string = string> =
 export type Property<TName extends string = string, TValue extends JsonValue = JsonValue> =
   | PropertyScalar<TName>
   | PropertyCredentialId<TName>
+  | PropertyResourceLocator<TName>
+  | PropertyResourceMapper<TName>
   | PropertyArray<TName>
   | PropertyObject<TName, string, TValue extends JsonObject ? TValue : JsonObject>
   | PropertyFileReference<TName>

@@ -120,6 +120,8 @@ if (!result.success) {
 - `discriminated_union`: 区分联合类型
 - `credential_id`: 凭证 ID 类型
 - `encrypted_string`: 加密字符串类型
+- `resource_locator`: 资源定位类型（支持 list/url/id 模式）
+- `resource_mapper`: 资源字段映射类型（用于结构化字段映射）
 
 **属性特性：**
 - 常量值（`constant`）

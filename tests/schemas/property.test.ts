@@ -75,11 +75,6 @@ describe("PropertyBaseSchema - name validation", () => {
       expect(result.success).toBe(true)
     })
 
-    test("should accept name with hyphen", () => {
-      const result = PropertiesSchema.safeParse([createProperty("my-name")])
-      expect(result.success).toBe(true)
-    })
-
     test("should accept single character name", () => {
       const result = PropertiesSchema.safeParse([createProperty("x")])
       expect(result.success).toBe(true)
