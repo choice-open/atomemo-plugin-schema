@@ -147,6 +147,16 @@ export interface PropertyBase<TName extends string = string> {
    * Property types that can use `depends_on`: resource_locator, resource_mapper.
    */
   depends_on?: Array<string> | null
+  /**
+  /**
+   * Decoder applied by the hub before values are delivered to the plugin.
+   * For example, when `decoder` is set to "json", the hub will parse an incoming
+   * JSON string into an object so the plugin receives the parsed value.
+   *
+   * Currently only the `"json"` decoder is supported and is intended for
+   * object properties.
+   */
+  decoder?: "json" | null
 }
 
 export interface PropertyString<TName extends string = string> extends PropertyBase<TName> {

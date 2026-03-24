@@ -100,6 +100,7 @@ const PropertyBaseSchema = z.object({
     .nullish(),
   ui: PropertyUICommonPropsSchema.nullish(),
   depends_on: z.array(strictNameSchema).nullish(),
+  decoder: z.enum(["json"]).nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof PropertyBaseSchema>, PropertyBase<string>> = true

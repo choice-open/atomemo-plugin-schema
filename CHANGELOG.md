@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Clarified the `decoder` field comment on `PropertyBase` to document that the
+  hub may apply a `"json"` decoder (parsing JSON strings into objects) before
+  delivering values to plugins; notes that `"json"` is currently the supported
+  decoder and is intended for object properties.
+
 ## [0.6.0] - 2026-03-20
 
 ### Added
