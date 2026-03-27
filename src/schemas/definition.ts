@@ -350,7 +350,11 @@ const ToolResourceMappingFieldSchema = z.object({
     z.literal("integer"),
   ]),
   required: z.boolean().nullish(),
-  display: z.boolean().nullish(),
+  ui: z
+    .object({
+      hint: I18nEntrySchema.nullish(),
+    })
+    .nullish(),
 })
 {
   const _: IsEqual<z.infer<typeof ToolResourceMappingFieldSchema>, ToolResourceMappingField> = true

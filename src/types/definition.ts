@@ -375,7 +375,9 @@ export interface ToolResourceMappingField {
   type: "string" | "number" | "boolean" | "object" | "array" | "integer"
   display_name?: I18nText | null
   required?: boolean | null
-  display?: boolean | null
+  ui?: {
+    hint?: I18nText | null
+  } | null
 }
 
 export type ToolResourceMappingFunction = (input: {

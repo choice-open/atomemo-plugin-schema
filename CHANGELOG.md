@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated `ToolResourceMappingField` and `ToolResourceMappingFieldSchema` to replace the `display` flag with an optional `ui.hint` field for localized resource-mapping field hints
+
 ## [0.6.1] - 2026-03-24
 
 ### Changed
