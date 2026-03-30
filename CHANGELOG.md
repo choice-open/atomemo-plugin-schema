@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.6] - 2026-03-30
+
 ### Added
 
 - Restored `checkbox` as a boolean UI option alongside `switch`: `PropertyUICheckboxProps` type and validation via `PropertyUIPropsSchema` and `PropertyUIBooleanSchema` (checkbox uses the same common props as other UI components)
@@ -405,7 +407,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.5...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.6...HEAD
+[0.6.6]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.5...v0.6.6
 [0.6.5]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.1...v0.6.5
 [0.6.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.5.4...v0.6.0
