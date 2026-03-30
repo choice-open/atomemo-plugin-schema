@@ -145,6 +145,10 @@ export interface PropertyUISwitchProps extends PropertyUICommonProps {
   component: "switch"
 }
 
+export interface PropertyUICheckboxProps extends PropertyUICommonProps {
+  component: "checkbox"
+}
+
 interface PropertyUISliderProps extends PropertyUICommonProps {
   component: "slider"
   marks?: Record<number, string>
@@ -217,6 +221,7 @@ export type PropertyUIProps =
   | PropertyUIColorPickerProps
   | PropertyUIMultiSelectProps
   | PropertyUISwitchProps
+  | PropertyUICheckboxProps
   | PropertyUISliderProps
   | PropertyUIKeyValueEditorProps
   | PropertyUITagInputProps
@@ -230,7 +235,7 @@ export type PropertyUIProps =
 
 export type PropertyUIComponentType = PropertyUIProps["component"]
 
-export type PropertyUIBoolean = PropertyUISwitchProps
+export type PropertyUIBoolean = PropertyUISwitchProps | PropertyUICheckboxProps
 
 export type PropertyUINumber = PropertyUINumberInputProps | PropertyUISliderProps
 

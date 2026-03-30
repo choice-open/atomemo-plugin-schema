@@ -4,6 +4,7 @@ import type {
   PropertyUIArray,
   PropertyUIArraySectionProps,
   PropertyUIBoolean,
+  PropertyUICheckboxProps,
   PropertyUICollapsiblePanelProps,
   PropertyUIColorPickerProps,
   PropertyUIContainer,
@@ -183,6 +184,14 @@ const PropertyUISwitchPropsSchema = PropertyUICommonPropsSchema.extend({
   const _: IsEqual<z.infer<typeof PropertyUISwitchPropsSchema>, PropertyUISwitchProps> = true
 }
 
+// Checkbox component schema
+const PropertyUICheckboxPropsSchema = PropertyUICommonPropsSchema.extend({
+  component: z.literal("checkbox"),
+})
+{
+  const _: IsEqual<z.infer<typeof PropertyUICheckboxPropsSchema>, PropertyUICheckboxProps> = true
+}
+
 // Slider component schema
 const PropertyUISliderPropsSchema = PropertyUICommonPropsSchema.extend({
   component: z.literal("slider"),
@@ -301,6 +310,7 @@ export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
   PropertyUIColorPickerPropsSchema,
   PropertyUIMultiSelectPropsSchema,
   PropertyUISwitchPropsSchema,
+  PropertyUICheckboxPropsSchema,
   PropertyUISliderPropsSchema,
   PropertyUIKeyValueEditorPropsSchema,
   PropertyUITagInputPropsSchema,
@@ -318,6 +328,7 @@ export const PropertyUIPropsSchema = z.discriminatedUnion("component", [
 
 export const PropertyUIBooleanSchema = z.discriminatedUnion("component", [
   PropertyUISwitchPropsSchema,
+  PropertyUICheckboxPropsSchema,
 ])
 {
   const _: IsEqual<z.infer<typeof PropertyUIBooleanSchema>, PropertyUIBoolean> = true
