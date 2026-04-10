@@ -104,6 +104,10 @@ export interface CredentialDefinition extends BaseDefinition {
    */
   oauth2?: boolean
   /**
+   * if not specified, the Hub will assume "authorization_code" grant type for OAuth2 flow.
+   */
+  oauth2_grant_type?: "authorization_code" | "client_credentials"
+  /**
    * Build the OAuth2 authorization URL to redirect the user to for consent.
    *
    * Called by the Hub when initiating the OAuth2 authorization flow.

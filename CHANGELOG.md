@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Added optional `oauth2_grant_type` to `CredentialDefinition` and `CredentialDefinitionSchema` so credentials can declare either `"authorization_code"` or `"client_credentials"` OAuth2 flows; the hub continues to default to `"authorization_code"` when omitted
+
 ## [0.6.6] - 2026-03-30
 
 ### Added
