@@ -179,6 +179,7 @@ export const CredentialDefinitionSchema = z
     ...BaseDefinitionSchema.shape,
     authenticate: CredentialAuthenticateSchema.optional(),
     oauth2: z.boolean().optional(),
+    oauth2_grant_type: z.enum(["authorization_code", "client_credentials"]).optional(),
     oauth2_build_authorize_url: OAuth2BuildAuthorizeUrlSchema.optional(),
     oauth2_get_token: OAuth2GetTokenSchema.optional(),
     oauth2_refresh_token: OAuth2RefreshTokenSchema.optional(),
