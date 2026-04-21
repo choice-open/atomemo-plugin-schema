@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.8] - 2026-04-21
+
 ### Changed
 
 - Made `oauth2_grant_type` required on `CredentialDefinition` and `CredentialDefinitionSchema`; credentials using OAuth2 must now explicitly declare either `"authorization_code"` or `"client_credentials"` rather than relying on the hub's default
@@ -417,7 +419,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added project structure documentation
 - Added development guidelines and contributing guide
 
-[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.7...HEAD
+[Unreleased]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.8...HEAD
+[0.6.8]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.7...v0.6.8
 [0.6.6]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.5...v0.6.6
 [0.6.5]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.1...v0.6.5
 [0.6.1]: https://github.com/choice-open/atomemo-plugin-schema/compare/v0.6.0...v0.6.1
