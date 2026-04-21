@@ -104,7 +104,8 @@ export interface CredentialDefinition extends BaseDefinition {
    */
   oauth2?: boolean
   /**
-   * if not specified, the Hub will assume "authorization_code" grant type for OAuth2 flow.
+   * The OAuth2 grant type to use for this credential.
+   * Callers must explicitly provide either `"authorization_code"` or `"client_credentials"`.
    */
   oauth2_grant_type: "authorization_code" | "client_credentials"
   /**
